@@ -30,7 +30,7 @@ public class FractalService {
     fractalToSave.setLastModified(fractal.getLastModified());
     fractalToSave.setOptions(fractal.getOptions());
     fractalToSave.setDataURL(fractal.getDataURL());
-    fractalToSave.setAccount((fractal.getAccount()));
+    fractalToSave.setProfile((fractal.getProfile()));
 
     return fractalRepo.save(fractalToSave);
   }
@@ -62,8 +62,8 @@ public class FractalService {
       fractalToUpdate.setDataURL(fractal.getDataURL());
     }
 
-    if (fractal.getAccount() != null) {
-      fractalToUpdate.setAccount(fractal.getAccount());
+    if (fractal.getProfile() != null) {
+      fractalToUpdate.setProfile(fractal.getProfile());
     }
 
     return fractalRepo.save(fractalToUpdate);

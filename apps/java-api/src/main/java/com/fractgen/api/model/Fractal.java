@@ -2,12 +2,12 @@ package com.fractgen.api.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fractgen.api.serializer.ProfileSerializer;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "fractal")
@@ -19,6 +19,9 @@ public class Fractal {
 
   @Column(name = "fractal_type", length = 50)
   private String type;
+
+  @Column(name = "fractal_status")
+  private boolean status;
 
   @Column(name = "fractal_name", length = 50)
   private String name;
@@ -37,7 +40,8 @@ public class Fractal {
   private String dataURL;
 
   @ManyToOne
-  private Account account;
+  @JsonSerialize(using = ProfileSerializer.class)
+  private Profile profile;
 
   public Fractal() {
   }
@@ -56,6 +60,14 @@ public class Fractal {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public boolean isStatus() {
+    return status;
+  }
+
+  public void setStatus(boolean status) {
+    this.status = status;
   }
 
   public String getName() {
@@ -98,12 +110,12 @@ public class Fractal {
     this.dataURL = dataURL;
   }
 
-  public Account getAccount() {
-    return account;
+  public Profile getProfile() {
+    return profile;
   }
 
-  public void setAccount(Account account) {
-    this.account = account;
+  public void setProfile(Profile profile) {
+    this.profile = profile;
   }
 
   @Override
@@ -113,16 +125,17 @@ public class Fractal {
     Fractal fractal = (Fractal) o;
     return id == fractal.id &&
       Objects.equals(type, fractal.type) &&
+      Objects.equals(status, fractal.status) &&
       Objects.equals(name, fractal.name) &&
       Objects.equals(description, fractal.description) &&
       Objects.equals(lastModified, fractal.lastModified) &&
       Objects.equals(options, fractal.options) &&
       Objects.equals(dataURL, fractal.dataURL) &&
-      Objects.equals(account, fractal.account);
+      Objects.equals(profile, fractal.profile);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, type, name, description, lastModified, options, dataURL, account);
+    return Objects.hash(id, type,status, name, description, lastModified, options, dataURL, profile);
   }
 }

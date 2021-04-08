@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FractalRepo extends JpaRepository<Fractal, Long> {
-  List<Fractal> findByAccountId(long id);
+  List<Fractal> findByProfileId(long id);
 }
