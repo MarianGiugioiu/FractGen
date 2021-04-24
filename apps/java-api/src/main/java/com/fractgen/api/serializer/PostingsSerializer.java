@@ -3,6 +3,8 @@ package com.fractgen.api.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fractgen.api.model.Comment;
+import com.fractgen.api.model.IdClass;
 import com.fractgen.api.model.Posting;
 
 import java.io.IOException;
@@ -19,9 +21,10 @@ public class PostingsSerializer extends StdSerializer<List<Posting>> {
 
   @Override
   public void serialize(List<Posting> postings, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-    List<Long> ids = new ArrayList<>();
+    List<IdClass> ids = new ArrayList<>();
     for (Posting posting : postings){
-      ids.add(posting.getId());
+      IdClass idObj = new IdClass(posting.getId());
+      ids.add(idObj);
     }
     jsonGenerator.writeObject(ids);
   }

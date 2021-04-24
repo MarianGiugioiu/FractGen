@@ -34,6 +34,12 @@ public class ProfileController {
     return new ResponseEntity<>(profile, HttpStatus.OK);
   }
 
+  @GetMapping(value = "/name/{name}")
+  public ResponseEntity<Long> getProfileByName (@PathVariable("name") String name){
+    Profile profile = profileService.getProfileByName(name);
+    return new ResponseEntity<>(profile.getId(), HttpStatus.OK);
+  }
+
   @GetMapping(value = "/{id}/fractals")
   public ResponseEntity<List<Fractal>> getFractalsByProfileId (@PathVariable("id") long id){
     List<Fractal> fractalList = profileService.getAllFractals(id);

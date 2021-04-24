@@ -34,7 +34,9 @@ public class PostingService {
     postingToSave.setPosterDate(posting.getPosterDate());
     postingToSave.setFractal(posting.getFractal());
     postingToSave.setProfile(posting.getProfile());
-    postingToSave.setLikes(posting.getLikes());
+    postingToSave.setLikedBy(posting.getLikedBy());
+    postingToSave.setDislikedBy(posting.getDislikedBy());
+    postingToSave.setSeenBy(posting.getSeenBy());
 
     return postingRepo.save(postingToSave);
   }
@@ -50,7 +52,15 @@ public class PostingService {
     if(posting.getProfile() != null){
       postingToUpdate.setProfile(posting.getProfile());
     }
-    postingToUpdate.setLikes(posting.getLikes());
+    if(posting.getLikedBy() != null){
+      postingToUpdate.setLikedBy(posting.getLikedBy());
+    }
+    if(posting.getDislikedBy() != null){
+      postingToUpdate.setDislikedBy(posting.getDislikedBy());
+    }
+    if(posting.getSeenBy() != null){
+      postingToUpdate.setSeenBy(posting.getSeenBy());
+    }
 
     return postingRepo.save(postingToUpdate);
   }

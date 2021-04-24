@@ -3,10 +3,13 @@ package com.fractgen.api.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fractgen.api.serializer.FractalSerializer;
+import com.fractgen.api.serializer.PostingsSerializer;
 import com.fractgen.api.serializer.ProfileSerializer;
+import com.fractgen.api.serializer.ProfilesSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +21,7 @@ public class Posting {
   private long id;
 
   @ManyToOne
-  @JsonSerialize(using = ProfileSerializer.class)
+  //@JsonSerialize(using = ProfileSerializer.class)
   private Profile profile;
 
   @OneToOne
@@ -29,9 +32,32 @@ public class Posting {
   @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   private LocalDateTime posterDate;
 
-  @Column(name = "posting_likes", nullable = false)
-  private long likes;
+  @ManyToMany
+  @JoinTable(
+    name = "likes",
+    joinColumns = @JoinColumn(name = "posting_id"),
+    inverseJoinColumns = @JoinColumn(name = "profile_id")
+  )
+  @JsonSerialize(using = ProfilesSerializer.class)
+  private List<Profile> likedBy;
 
+  @ManyToMany
+  @JoinTable(
+    name = "dislikes",
+    joinColumns = @JoinColumn(name = "posting_id"),
+    inverseJoinColumns = @JoinColumn(name = "profile_id")
+  )
+  @JsonSerialize(using = ProfilesSerializer.class)
+  private List<Profile> dislikedBy;
+
+  @ManyToMany
+  @JoinTable(
+    name = "seen",
+    joinColumns = @JoinColumn(name = "posting_id"),
+    inverseJoinColumns = @JoinColumn(name = "profile_id")
+  )
+  @JsonSerialize(using = ProfilesSerializer.class)
+  private List<Profile> seenBy;
 
   public Posting() {
   }
@@ -44,12 +70,20 @@ public class Posting {
     this.id = id;
   }
 
-  public long getLikes() {
-    return likes;
+  public List<Profile> getLikedBy() {
+    return likedBy;
   }
 
-  public void setLikes(long likes) {
-    this.likes = likes;
+  public void setLikedBy(List<Profile> likedBy) {
+    this.likedBy = likedBy;
+  }
+
+  public List<Profile> getDislikedBy() {
+    return dislikedBy;
+  }
+
+  public void setDislikedBy(List<Profile> dislikedBy) {
+    this.dislikedBy = dislikedBy;
   }
 
   public Profile getProfile() {
@@ -76,20 +110,30 @@ public class Posting {
     this.posterDate = posterDate;
   }
 
+  public List<Profile> getSeenBy() {
+    return seenBy;
+  }
+
+  public void setSeenBy(List<Profile> seenBy) {
+    this.seenBy = seenBy;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Posting)) return false;
     Posting posting = (Posting) o;
     return id == posting.id &&
-      likes == posting.likes &&
       Objects.equals(profile, posting.profile) &&
       Objects.equals(fractal, posting.fractal) &&
-      Objects.equals(posterDate, posting.posterDate);
+      Objects.equals(posterDate, posting.posterDate) &&
+      Objects.equals(likedBy, posting.likedBy) &&
+      Objects.equals(seenBy, posting.seenBy) &&
+      Objects.equals(dislikedBy, posting.dislikedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, profile, fractal, posterDate, likes);
+    return Objects.hash(id, profile, fractal, posterDate, likedBy, dislikedBy,seenBy);
   }
 }

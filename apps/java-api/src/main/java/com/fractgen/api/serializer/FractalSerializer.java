@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fractgen.api.model.Fractal;
+import com.fractgen.api.model.FractalDTO;
+import com.fractgen.api.model.IdClass;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class FractalSerializer  extends StdSerializer<Fractal> {
 
   @Override
   public void serialize(Fractal fractal, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-    Long id = fractal.getId();
-    jsonGenerator.writeObject(id);
+    FractalDTO fractalDTO = new FractalDTO(fractal.getId(), fractal.getDataURL(), fractal.getName(), fractal.getDescription());
+    jsonGenerator.writeObject(fractalDTO);
   }
 }

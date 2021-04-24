@@ -28,7 +28,9 @@ public class CommentService {
     commentToSave.setEdited(comment.isEdited());
     commentToSave.setProfile(comment.getProfile());
     commentToSave.setPosting(comment.getPosting());
-
+    commentToSave.setLikedBy(comment.getLikedBy());
+    commentToSave.setDislikedBy(comment.getDislikedBy());
+    commentToSave.setCreatedBy(comment.getCreatedBy());
     return commentRepo.save(commentToSave);
   }
 
@@ -44,9 +46,17 @@ public class CommentService {
       commentToUpdate.setPosting(comment.getPosting());
     }
     commentToUpdate.setEdited(comment.isEdited());
-
     if(comment.getProfile() != null){
       commentToUpdate.setProfile(comment.getProfile());
+    }
+    if(comment.getLikedBy() != null){
+      commentToUpdate.setLikedBy(comment.getLikedBy());
+    }
+    if(comment.getDislikedBy() != null){
+      commentToUpdate.setDislikedBy(comment.getDislikedBy());
+    }
+    if(comment.getCreatedBy() != null){
+      commentToUpdate.setCreatedBy(comment.getCreatedBy());
     }
 
     return commentRepo.save(commentToUpdate);

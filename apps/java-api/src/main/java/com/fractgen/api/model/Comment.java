@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fractgen.api.serializer.PostingSerializer;
 import com.fractgen.api.serializer.ProfileSerializer;
+import com.fractgen.api.serializer.ProfilesSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +18,9 @@ public class Comment {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "comment_id")
   private long id;
+
+  @Column(name = "creator", length = 50)
+  private String createdBy;
 
   @Column(name = "comment_text", length = 200)
   private String text;
@@ -35,7 +40,33 @@ public class Comment {
   @JsonSerialize(using = PostingSerializer.class)
   private Posting posting;
 
+  @ManyToMany
+  @JoinTable(
+    name = "commentLikes",
+    joinColumns = @JoinColumn(name = "comment_id"),
+    inverseJoinColumns = @JoinColumn(name = "profile_id")
+  )
+  @JsonSerialize(using = ProfilesSerializer.class)
+  private List<Profile> likedBy;
+
+  @ManyToMany
+  @JoinTable(
+    name = "commentDislikes",
+    joinColumns = @JoinColumn(name = "comment_id"),
+    inverseJoinColumns = @JoinColumn(name = "profile_id")
+  )
+  @JsonSerialize(using = ProfilesSerializer.class)
+  private List<Profile> dislikedBy;
+
   public Comment() {
+  }
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
   }
 
   public long getId() {
@@ -82,6 +113,22 @@ public class Comment {
     return profile;
   }
 
+  public List<Profile> getLikedBy() {
+    return likedBy;
+  }
+
+  public void setLikedBy(List<Profile> likedBy) {
+    this.likedBy = likedBy;
+  }
+
+  public List<Profile> getDislikedBy() {
+    return dislikedBy;
+  }
+
+  public void setDislikedBy(List<Profile> dislikedBy) {
+    this.dislikedBy = dislikedBy;
+  }
+
   public void setProfile(Profile profile) {
     this.profile = profile;
   }
@@ -93,14 +140,17 @@ public class Comment {
     Comment comment = (Comment) o;
     return id == comment.id &&
       edited == comment.edited &&
+      Objects.equals(createdBy, comment.createdBy) &&
       Objects.equals(text, comment.text) &&
       Objects.equals(lastModified, comment.lastModified) &&
       Objects.equals(profile, comment.profile) &&
-      Objects.equals(posting, comment.posting);
+      Objects.equals(posting, comment.posting) &&
+      Objects.equals(likedBy, comment.likedBy) &&
+      Objects.equals(dislikedBy, comment.dislikedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, text, lastModified, edited, profile, posting);
+    return Objects.hash(id, createdBy, text, lastModified, edited, profile, posting, likedBy, dislikedBy);
   }
 }
