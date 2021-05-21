@@ -59,6 +59,11 @@ public class Posting {
   @JsonSerialize(using = ProfilesSerializer.class)
   private List<Profile> seenBy;
 
+  @OneToMany(
+    mappedBy = "posting", orphanRemoval = true
+  )
+  private List<Comment> comments;
+
   public Posting() {
   }
 
