@@ -1,4 +1,4 @@
-package com.fractgen.api.model;
+package com.fractgen.api.dto;
 
 import java.util.Objects;
 
