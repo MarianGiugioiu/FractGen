@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fractgen.api.model.Comment;
-import com.fractgen.api.model.IdClass;
+import com.fractgen.api.dto.IdClass;
 
 import java.io.IOException;
 import java.util.ArrayList;

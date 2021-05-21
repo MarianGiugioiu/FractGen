@@ -4,12 +4,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fractgen.api.model.Fractal;
-import com.fractgen.api.model.FractalDTO;
-import com.fractgen.api.model.IdClass;
+import com.fractgen.api.dto.FractalDTO;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FractalSerializer  extends StdSerializer<Fractal> {
   public FractalSerializer() {

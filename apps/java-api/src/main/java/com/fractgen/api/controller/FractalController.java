@@ -2,6 +2,7 @@ package com.fractgen.api.controller;
 
 import com.fractgen.api.exception.ResourceNotFoundException;
 import com.fractgen.api.model.Fractal;
+import com.fractgen.api.dto.NameImageClass;
 import com.fractgen.api.service.FractalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,19 @@ public class FractalController {
         HttpStatus.NOT_FOUND, "No Fractal found with this ID", new ResourceNotFoundException()
       ));
     return new ResponseEntity<>(fractal, HttpStatus.OK);
+  }
+
+  @GetMapping(value = {"", "/{id}/parts"})
+  public ResponseEntity<List<NameImageClass>> getAllFractalsParts (@PathVariable("id") long id) {
+    List<NameImageClass> fractals = null;
+    try {
+      fractals = fractalService.getFractalParts(id);
+    } catch (ResourceNotFoundException e) {
+      throw new ResponseStatusException(
+        HttpStatus.NOT_FOUND, "No Fractal found with this ID", new ResourceNotFoundException()
+      );
+    }
+    return new ResponseEntity<>(fractals, HttpStatus.OK);
   }
 
   @PostMapping(value = {"", "/"})
