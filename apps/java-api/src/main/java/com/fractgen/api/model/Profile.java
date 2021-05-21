@@ -1,6 +1,7 @@
 package com.fractgen.api.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fractgen.api.serializer.AccountSerializer;
 import com.fractgen.api.serializer.CommentsSerializer;
 import com.fractgen.api.serializer.PostingsSerializer;
 import com.fractgen.api.serializer.ProfilesSerializer;
@@ -89,7 +90,19 @@ public class Profile {
   @JsonSerialize(using = PostingsSerializer.class)
   private List<Posting> seen;
 
+  @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval=true)
+  @JsonSerialize(using = AccountSerializer.class)
+  private Account account;
+
   public Profile() {
+  }
+
+  public Account getAccount() {
+    return account;
+  }
+
+  public void setAccount(Account account) {
+    this.account = account;
   }
 
   public String getPrivacy() {
@@ -204,11 +217,12 @@ public class Profile {
       Objects.equals(dislikes, profile.dislikes) &&
       Objects.equals(likedComments, profile.likedComments) &&
       Objects.equals(dislikedComments, profile.dislikedComments) &&
-      Objects.equals(seen, profile.seen);
+      Objects.equals(seen, profile.seen) &&
+      Objects.equals(account, profile.account);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, photo, privacy, following, followed, likes, dislikes, likedComments, dislikedComments, seen);
+    return Objects.hash(id, name, description, photo, privacy, following, followed, likes, dislikes, likedComments, dislikedComments, seen, account);
   }
 }

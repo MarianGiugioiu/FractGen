@@ -1,9 +1,8 @@
 package com.fractgen.api.controller;
 
+import com.fractgen.api.dto.*;
 import com.fractgen.api.exception.ResourceNotFoundException;
-import com.fractgen.api.model.Posting;
-import com.fractgen.api.model.Profile;
-import com.fractgen.api.model.Fractal;
+import com.fractgen.api.model.*;
 import com.fractgen.api.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,25 +35,70 @@ public class ProfileController {
 
   @GetMapping(value = "/name/{name}")
   public ResponseEntity<Long> getProfileByName (@PathVariable("name") String name){
-    Profile profile = profileService.getProfileByName(name);
+    Profile profile = profileService.getProfileByName(name)
+      .orElseThrow(() -> new ResponseStatusException(
+        HttpStatus.NOT_FOUND, "No Profile found with this ID", new ResourceNotFoundException()
+      ));
     return new ResponseEntity<>(profile.getId(), HttpStatus.OK);
   }
 
+  @GetMapping(value = "/exists/name/{name}")
+  public ResponseEntity<Boolean> existsByName (@PathVariable("name") String name){
+    boolean exists = profileService.existsByName(name);
+    return new ResponseEntity<>(exists, HttpStatus.OK);
+  }
+
   @GetMapping(value = "/{id}/fractals")
-  public ResponseEntity<List<Fractal>> getFractalsByProfileId (@PathVariable("id") long id){
-    List<Fractal> fractalList = profileService.getAllFractals(id);
+  public ResponseEntity<List<ImageDTO>> getFractalsByProfileId (@PathVariable("id") long id){
+    List<ImageDTO> fractalList = profileService.getAllFractals(id);
     return new ResponseEntity<>( fractalList, HttpStatus.OK);
   }
 
   @GetMapping(value = "/{id}/postings")
-  public ResponseEntity<List<Posting>> getPostingsByProfileId (@PathVariable("id") long id){
-    List<Posting> postingList = profileService.getAllPostings(id);
+  public ResponseEntity<List<PostingDTO>> getPostingsByProfileId (@PathVariable("id") long id){
+    List<PostingDTO> postingList = profileService.getAllPostings(id);
     return new ResponseEntity<>( postingList, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/{id}/followed")
+  public ResponseEntity<List<NameImageClass>> getFollowersByProfileId (@PathVariable("id") long id){
+    List<NameImageClass> followedList = profileService.getAllFollowed(id);
+    return new ResponseEntity<>( followedList, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/{id}/following")
+  public ResponseEntity<List<NameImageClass>> getFollowingByProfileId (@PathVariable("id") long id){
+    List<NameImageClass> followingList = profileService.getAllFollowing(id);
+    return new ResponseEntity<>( followingList, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/{id}/likes")
+  public ResponseEntity<List<NameImageClass>> getLikesByProfileId (@PathVariable("id") long id){
+    List<NameImageClass> likeList = profileService.getAllLikedPosts(id);
+    return new ResponseEntity<>( likeList, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/{id}/dislikes")
+  public ResponseEntity<List<NameImageClass>> getDislikesByProfileId (@PathVariable("id") long id){
+    List<NameImageClass> dislikeList = profileService.getAllDisikedPosts(id);
+    return new ResponseEntity<>( dislikeList, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/{id}/unseen")
+  public ResponseEntity<List<PostingWithLikesDTO>> getUnseenPostings (@PathVariable("id") long id){
+    List<PostingWithLikesDTO> unseenPostings = profileService.getAllUnseenPostings(id);
+    return new ResponseEntity<>( unseenPostings, HttpStatus.OK);
   }
 
   @PostMapping(value = {"", "/"})
   public ResponseEntity<Profile> addProfile (@RequestBody Profile profile) {
     Profile savedProfile = profileService.addProfile(profile);
+    return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
+  }
+
+  @PostMapping(value = {"", "/name"})
+  public ResponseEntity<Profile> addProfileWithAccount (@RequestBody AccountName account) {
+    Profile savedProfile = profileService.addProfileWithAccount(account);
     return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
   }
 
