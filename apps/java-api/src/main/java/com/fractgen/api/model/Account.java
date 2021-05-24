@@ -15,6 +15,14 @@ public class Account {
   @Column(name = "account_id")
   private long id;
 
+  @Column(name = "verification_code", length = 64)
+  private String verificationCode;
+
+  @Column(name = "verification_reset_code", length = 64)
+  private String verificationResetCode;
+
+  private boolean enabled;
+
   @Column(name = "account_email")
   private String email;
 
@@ -26,6 +34,30 @@ public class Account {
   private Profile profile;
 
   public Account() {
+  }
+
+  public String getVerificationCode() {
+    return verificationCode;
+  }
+
+  public void setVerificationCode(String verificationCode) {
+    this.verificationCode = verificationCode;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public String getVerificationResetCode() {
+    return verificationResetCode;
+  }
+
+  public void setVerificationResetCode(String verificationResetCode) {
+    this.verificationResetCode = verificationResetCode;
   }
 
   public long getId() {
@@ -66,6 +98,9 @@ public class Account {
     if (!(o instanceof Account)) return false;
     Account account = (Account) o;
     return id == account.id &&
+      enabled == account.enabled &&
+      Objects.equals(verificationCode, account.verificationCode) &&
+      Objects.equals(verificationResetCode, account.verificationResetCode) &&
       Objects.equals(email, account.email) &&
       Objects.equals(password, account.password) &&
       Objects.equals(profile, account.profile);
@@ -73,6 +108,6 @@ public class Account {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, email, password, profile);
+    return Objects.hash(id, verificationCode, verificationResetCode, enabled, email, password, profile);
   }
 }

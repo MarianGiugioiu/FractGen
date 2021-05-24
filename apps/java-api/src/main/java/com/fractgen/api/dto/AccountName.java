@@ -11,6 +11,11 @@ public class AccountName {
   public AccountName() {
   }
 
+  public AccountName(Account account, String name) {
+    this.account = account;
+    this.name = name;
+  }
+
   public Account getAccount() {
     return account;
   }
