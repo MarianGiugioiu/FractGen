@@ -1,7 +1,8 @@
 {
   "version": 1,
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "analytics": "cf62a9f4-db87-49dc-994f-d3e5c1bde816"
   },
   "defaultProject": "react-app",
   "schematics": {
@@ -53,7 +54,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/web:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/react-app",
             "index": "apps/react-app/src/index.html",
@@ -64,7 +67,9 @@
               "apps/react-app/src/favicon.ico",
               "apps/react-app/src/assets"
             ],
-            "styles": ["apps/react-app/src/styles.css"],
+            "styles": [
+              "apps/react-app/src/styles.css"
+            ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -107,12 +112,16 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/react-app/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "apps/react-app/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/react-app"],
+          "outputs": [
+            "coverage/apps/react-app"
+          ],
           "options": {
             "jestConfig": "apps/react-app/jest.config.js",
             "passWithNoTests": true
@@ -141,7 +150,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/react-app-e2e/**/*.js"]
+            "lintFilePatterns": [
+              "apps/react-app-e2e/**/*.js"
+            ]
           }
         }
       }
