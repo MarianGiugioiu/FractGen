@@ -1,0 +1,248 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.backgroundDiv {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.mainDiv1 {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}
+
+.myRow1 {
+  display: flex;
+  overflow: hidden;
+  height: 80%;
+  flex-direction: row;
+}
+
+.myColorPicker {
+  height: 20vh;
+  width: 20vh;
+}
+
+.myRow2 {
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 100%;
+  align-items: center;
+  margin: 1vh;
+  padding: 1vh;
+  border: 1px groove gray;
+}
+
+
+.myColumn2 {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  align-items: center;
+  height: 45vh;
+  border: 1px groove gray;
+}
+.myColumn2-2 {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  align-items: center;
+  height: 44vh;
+  border: 1px groove gray;
+}
+
+
+.myRow3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myColumn3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.myRow4 {
+  display: flex;
+  margin-left: 3vw;
+}
+
+.myColumn1 {
+  display: flex;
+  flex-direction: column;
+  float: left;
+  height: 100%;
+  width: 20%;
+  overflow: auto;
+}
+
+.myColumnCurveCanvas {
+  display: flex;
+  flex-direction: column;
+  float: center;
+  height: 13vw;
+  width: 13vw;
+}
+
+.myColumnCanvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 24vw;
+  width: 24vw;
+}
+
+.chrome-picker{
+  margin: 0.5vh;
+}
+
+.myColumnOptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30vw;
+}
+
+.myColumnOptionsSnowFlake {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+}
+
+
+.myColumn21 {
+  display: flex;
+  flex-direction: column;
+  float: center;
+  height: 23vw;
+  width: 23vw;
+}
+
+.myColumn22 {
+  display: flex;
+  flex-direction: column;
+  float: center;
+  height: 30%;
+  width: 50%;
+}
+
+canvas {
+  background: black;
+  height: 100%;
+  width: 100%;
+}
+
+.myRowSimple{
+  display: flex;
+  flex-direction: row;
+}
+
+.myColumnSimple{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.black-img{
+  background-color:black;
+}
+
+
+.column-div {
+  display: flex;
+  flex-direction: row;
+}
+.generate-tree-button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  left: 0;
+  bottom: 5%;
+  z-index: 10;
+  left: 50%;
+  padding: 5px 5px;
+  border-radius: 50px;
+  background: brown;
+  color: black;
+  font-size: 20px;
+  overflow: hidden;
+  width: 300px;
+}
+
+.slidecontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px 0px 10px;
+}
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;  
+  background: red;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+#myRange4.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background:black;
+  cursor: pointer;
+}
+#myRange3.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background:red;
+  cursor: pointer;
+}
+
+#myRange2.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background:green;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+

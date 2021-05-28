@@ -94,6 +94,9 @@ public class Profile {
   @JsonSerialize(using = AccountSerializer.class)
   private Account account;
 
+  @OneToMany(mappedBy = "profile", orphanRemoval = true)
+  private List<Comment> comments;
+
   public Profile() {
   }
 
