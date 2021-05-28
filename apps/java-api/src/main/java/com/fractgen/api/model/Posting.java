@@ -24,7 +24,7 @@ public class Posting {
   //@JsonSerialize(using = ProfileSerializer.class)
   private Profile profile;
 
-  @OneToOne
+  @ManyToOne
   @JsonSerialize(using = FractalSerializer.class)
   private Fractal fractal;
 

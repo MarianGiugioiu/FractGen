@@ -42,7 +42,7 @@ public class FractalService {
     }
     ArrayList<NameImageClass> fractals = new ArrayList<>();
     for (String idPart : ids){
-      Fractal fractalPart = fractalRepo.findById(Long.parseLong(idPart)).orElse(null);
+      Fractal fractalPart = fractalRepo.findById(Long.parseLong(idPart)).orElseThrow(ResourceNotFoundException::new);
       fractals.add(new NameImageClass(fractalPart.getId(),fractalPart.getName(),fractalPart.getDataURL()));
     }
     return fractals;

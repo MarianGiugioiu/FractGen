@@ -7,6 +7,7 @@ import com.fractgen.api.serializer.ProfileSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -42,6 +43,9 @@ public class Fractal {
   @ManyToOne
   @JsonSerialize(using = ProfileSerializer.class)
   private Profile profile;
+
+  @OneToMany(mappedBy = "fractal", orphanRemoval = true)
+  private List<Posting> postings;
 
   public Fractal() {
   }

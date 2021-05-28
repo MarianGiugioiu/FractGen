@@ -58,7 +58,7 @@ public class AccountService {
     throws ResourceNotFoundException, UnsupportedEncodingException, MessagingException {
     Account account = accountRepo.findByEmail(email.getEmail()).orElseThrow(ResourceNotFoundException::new);
     String randomCode = RandomString.make(64);
-    account.setVerificationCode(randomCode);
+    account.setVerificationResetCode(randomCode);
     accountRepo.save(account);
     AccountName accountName = new AccountName(account, account.getProfile().getName());
 
@@ -121,7 +121,7 @@ public class AccountService {
     helper.setSubject(subject);
 
     content = content.replace("[[name]]", name);
-    String verifyURL = siteURL + "/reset_password/" + account.getVerificationCode();
+    String verifyURL = siteURL + "/reset_password/" + account.getVerificationResetCode();
 
     content = content.replace("[[URL]]", verifyURL);
 
@@ -147,7 +147,7 @@ public class AccountService {
   }
 
   public String resetPassword(String verificationCode, String password) throws ResourceNotFoundException {
-    Account account = accountRepo.findByVerificationCode(verificationCode);
+    Account account = accountRepo.findByVerificationResetCode(verificationCode);
     if (account != null) {
       account.setVerificationResetCode(null);
       account.setPassword(PasswordService.encodePassword(password));
@@ -158,7 +158,7 @@ public class AccountService {
   }
 
   public boolean verifyReset(String verificationCode) {
-    Account account = accountRepo.findByVerificationCode(verificationCode);
+    Account account = accountRepo.findByVerificationResetCode(verificationCode);
 
     if (account == null) {
       return false;

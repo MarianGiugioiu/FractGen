@@ -192,9 +192,6 @@ public class ProfileService {
     if(profile.getSeen() != null){
       profileToUpdate.setSeen(profile.getSeen());
     }
-    if(profile.getAccount() != null) {
-      profileToUpdate.setAccount(profile.getAccount());
-    }
 
     return profileRepo.save(profileToUpdate);
   }
