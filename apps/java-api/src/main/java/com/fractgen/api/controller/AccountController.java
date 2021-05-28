@@ -105,7 +105,7 @@ public class AccountController {
   }
 
   private String getSiteURL(HttpServletRequest request) {
-    String siteURL = "http://localhost:3000";
+    String siteURL = "http://localhost:4200";
     return siteURL.replace(request.getServletPath(), "");
   }
 
