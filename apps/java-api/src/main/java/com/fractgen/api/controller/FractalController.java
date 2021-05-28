@@ -1,5 +1,6 @@
 package com.fractgen.api.controller;
 
+import com.fractgen.api.exception.PartNotFoundException;
 import com.fractgen.api.exception.ResourceNotFoundException;
 import com.fractgen.api.model.Fractal;
 import com.fractgen.api.dto.NameImageClass;
@@ -41,6 +42,10 @@ public class FractalController {
     } catch (ResourceNotFoundException e) {
       throw new ResponseStatusException(
         HttpStatus.NOT_FOUND, "No Fractal found with this ID", new ResourceNotFoundException()
+      );
+    } catch (PartNotFoundException e) {
+      throw new ResponseStatusException(
+        HttpStatus.NOT_ACCEPTABLE, "Parts of this image are missing", new PartNotFoundException()
       );
     }
     return new ResponseEntity<>(fractals, HttpStatus.OK);

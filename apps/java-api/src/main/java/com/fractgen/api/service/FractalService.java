@@ -1,5 +1,6 @@
 package com.fractgen.api.service;
 
+import com.fractgen.api.exception.PartNotFoundException;
 import com.fractgen.api.exception.ResourceNotFoundException;
 import com.fractgen.api.model.Fractal;
 import com.fractgen.api.dto.NameImageClass;
@@ -24,7 +25,7 @@ public class FractalService {
     return fractalRepo.findById(id);
   }
 
-  public List<NameImageClass> getFractalParts (long id) throws ResourceNotFoundException{
+  public List<NameImageClass> getFractalParts (long id) throws ResourceNotFoundException, PartNotFoundException {
     Fractal fractal = fractalRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
     ArrayList<String> ids = new ArrayList<>();
     String string  = "";
@@ -42,7 +43,7 @@ public class FractalService {
     }
     ArrayList<NameImageClass> fractals = new ArrayList<>();
     for (String idPart : ids){
-      Fractal fractalPart = fractalRepo.findById(Long.parseLong(idPart)).orElseThrow(ResourceNotFoundException::new);
+      Fractal fractalPart = fractalRepo.findById(Long.parseLong(idPart)).orElseThrow(PartNotFoundException::new);
       fractals.add(new NameImageClass(fractalPart.getId(),fractalPart.getName(),fractalPart.getDataURL()));
     }
     return fractals;
