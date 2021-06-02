@@ -1,9 +1,6 @@
-import { Button } from 'reactstrap';
+import React from 'react';
 import '../App.css';
 import { Link } from "react-router-dom";
-
-//<TreeList action="old" id="82"/>
-//params={{ action: "old", id:"82" }
 
 export default function Generator() {
   return (
