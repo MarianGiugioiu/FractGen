@@ -4,11 +4,6 @@
   box-sizing: border-box;
 }
 
-.backgroundDiv {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 
 .mainDiv1 {
   position: absolute;
