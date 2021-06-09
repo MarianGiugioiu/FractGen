@@ -166,11 +166,6 @@ export default function ImageCreator(props){
             context1.fillStyle = 'rgb(' + backgroungColorState.r + ',' + backgroungColorState.g + ',' + backgroungColorState.b + ',' + backgroungColorState.a + ')';
             context1.fillRect(0, 0, canvas1.width, canvas1.height);
             context1.drawImage(canvas,0,0,canvasDimX,canvasDimY);
-            /*var destinationImage = new Image;
-            destinationImage.onload = function(){
-                context1.drawImage(destinationImage,0,0);
-            };*/
-            //destinationImage.src = sourceImageData;
             var sourceImageData = canvas1.toDataURL("image/jpeg", 0.5);
             context1.restore();
         }
@@ -485,7 +480,6 @@ export default function ImageCreator(props){
     //Draw current state in canvas
     function drawImages(){
         const id = idState;
-        //console.log(imagePartsRefs);
         const nrImages = Object.keys(imagePartsRefs).length;
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
@@ -493,12 +487,8 @@ export default function ImageCreator(props){
         canvas.height = canvasDimY;
         context.clearRect(0,0,canvasDimX,canvasDimY)
         for (let i = 0; i < nrImages; i++){
-            //console.log(imagePropertiesListState[i])
-            //console.log(imagePartsRefs[`img${i}`]);
             const imageCurrent = imagePartsRefs[`img${i}`];
-            //console.log(id);
             if(imagePropertiesListState[i] != null && imageCurrent != null && i != id){
-                //console.log(imageCurrent)
                 context.save();
                 context.translate(imagePropertiesListState[i].posX, imagePropertiesListState[i].posY);
                 context.rotate(imagePropertiesListState[i].rotation*Math.PI/180);
@@ -507,7 +497,6 @@ export default function ImageCreator(props){
                     -imageDimY * imagePropertiesListState[i].scaleY / 2,
                     imageDimX * imagePropertiesListState[i].scaleX,
                     imageDimY * imagePropertiesListState[i].scaleY);
-                //context.drawImage(imageCurrent,imageDimX * i , imageDimY * i, imageDimX, imageDimY);
                 context.restore();
             }
         }
@@ -519,7 +508,8 @@ export default function ImageCreator(props){
             //context.moveTo(0,0);
             context.translate(posXState, posYState);
             context.rotate(rotationState*Math.PI/180);
-            context.drawImage(image, -imageDimX * scaleXState / 2, -imageDimY * scaleYState / 2, imageDimX * scaleXState, imageDimY * scaleYState);
+            context.drawImage(image, -imageDimX * scaleXState / 2, -imageDimY * scaleYState / 2,
+                imageDimX * scaleXState, imageDimY * scaleYState);
 
             prepareDownload()
 
@@ -528,14 +518,13 @@ export default function ImageCreator(props){
                 context.save();
                 context.strokeStyle = 'blue';
                 context.lineWidth = 5;
-                context.fillStyle = 'red';
-                context.rect(-imageDimX * scaleXState / 2, -imageDimY * scaleYState / 2, imageDimX * scaleXState, imageDimY * scaleYState);
+                context.rect(-imageDimX * scaleXState / 2, -imageDimY * scaleYState / 2,
+                    imageDimX * scaleXState, imageDimY * scaleYState);
                 context.stroke();
             }
         } else {
             prepareDownload()
         }
-        //context.restore();
         if (readyState == 1){
             setReadyState(2);
         }
@@ -697,7 +686,7 @@ export default function ImageCreator(props){
                             width:"25vw"
                         }}
                     >
-                        <h3 className="fw-light">Image Creator</h3>
+                        <h3 className="fw-light">Landscape</h3>
                         <ImageDetails
                             backgroungColorState={backgroungColorState} 
                             setBackgroungColorState={setBackgroungColorState}

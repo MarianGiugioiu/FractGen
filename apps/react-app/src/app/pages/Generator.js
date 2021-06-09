@@ -48,7 +48,7 @@ All images can also be downloaded as a png or jpg.<p/>
           <Link to={{
             pathname: '/ImageCreator/new'
           }}>
-              ImageCreator
+              Landscape
           </Link>
         </li>
       </ul>

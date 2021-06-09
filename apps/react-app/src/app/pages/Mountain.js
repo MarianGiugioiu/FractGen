@@ -55,10 +55,10 @@ export default function Mountain(props) {
         context.lineWidth = 3;
         let L = [[],[],[]];
         for (let z of Object.keys(margins)){
-            //console.log(p);
-            let p = JSON.parse(z);
-            //context.fillRect(p[0],p[1],10,10);
-            L[margins[z]].push(p);
+            //console.log(currentPoints);
+            let currentPoints = JSON.parse(z);
+            //context.fillRect(currentPoints[0],currentPoints[1],10,10);
+            L[margins[z]].push(currentPoints);
         }
         L[0].sort(function(a,b) {
             return a[1] - b[1];
@@ -122,64 +122,62 @@ export default function Mountain(props) {
         margins[JSON.stringify(P2)] = 2;
         let randomRatio = 20;
         let max = 0;
-        let n = 7;
+        let nr = 7;
         if (isHQState) {
-            n = 8;
+            nr = 8;
         }
         let k = 1;
         let g = 0;
-        while (k < n) {
+        while (k < nr) {
             let h = g + 4 ** (k-1);
             for (let i = g; i < h; i++) {
-                //console.log(i);
-                //console.log(points[i])
 
                 let p0 = points[i][0];
                 let p1 = points[i][1];
                 let p2 = points[i][2];
-                let p = [p0,p1,p2];
+                let currentPoints = [p0,p1,p2];
                 let m0 = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2];
                 let m1 = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
                 let m2 = [(p2[0] + p0[0]) / 2, (p2[1] + p0[1]) / 2];
-                let m = [m0,m1,m2]
-                let o = [JSON.stringify(p[0]),JSON.stringify(p[1]),JSON.stringify(p[2])]
-                let t = [JSON.stringify(m[0]),JSON.stringify(m[1]),JSON.stringify(m[2])]
+                let initialMeans = [m0,m1,m2]
+                let pointsToString = [JSON.stringify(currentPoints[0]),
+                JSON.stringify(currentPoints[1]),JSON.stringify(currentPoints[2])]
+                let meansToString = [JSON.stringify(initialMeans[0]),
+                JSON.stringify(initialMeans[1]),JSON.stringify(initialMeans[2])]
                 
 
-                let rd1 = (Math.abs(p[0][0] - p[1][0]) + Math.abs(p[2][0] - p[1][0]) + Math.abs(p[0][0] - p[2][0])) / randomRatio;
-                let rd2 = (Math.abs(p[0][1] - p[1][1]) + Math.abs(p[2][1] - p[1][1]) + Math.abs(p[0][1] - p[2][1])) / randomRatio;
-                let n = []
-                n.push([m[0][0] + Math.random() * 2 * rd1 - Math.random() * rd1,
-                    m[0][1] + Math.random() * 2 * rd2 - Math.random() * rd2]);
-                n.push([m[1][0] + Math.random() * 2 * rd1 - Math.random() * rd1,
-                    m[1][1] + Math.random() * 2 * rd2 - Math.random() * rd2]);
-                n.push([m[2][0] + Math.random() * 2 * rd1 - Math.random() * rd1,
-                    m[2][1] + Math.random() * 2 * rd2 - Math.random() * rd2]);
+                let rd1 = (Math.abs(currentPoints[0][0] - currentPoints[1][0]) + Math.abs(currentPoints[2][0] - currentPoints[1][0]) + Math.abs(currentPoints[0][0] - currentPoints[2][0])) / randomRatio;
+                let rd2 = (Math.abs(currentPoints[0][1] - currentPoints[1][1]) + Math.abs(currentPoints[2][1] - currentPoints[1][1]) + Math.abs(currentPoints[0][1] - currentPoints[2][1])) / randomRatio;
+                let randomMeans = []
+                randomMeans.push([initialMeans[0][0] + Math.random() * 2 * rd1 - Math.random() * rd1,
+                    initialMeans[0][1] + Math.random() * 2 * rd2 - Math.random() * rd2]);
+                randomMeans.push([initialMeans[1][0] + Math.random() * 2 * rd1 - Math.random() * rd1,
+                    initialMeans[1][1] + Math.random() * 2 * rd2 - Math.random() * rd2]);
+                randomMeans.push([initialMeans[2][0] + Math.random() * 2 * rd1 - Math.random() * rd1,
+                    initialMeans[2][1] + Math.random() * 2 * rd2 - Math.random() * rd2]);
 
-                for (let j in t) {
-                    if (randoms[t[j]] == null) {
-                        randoms[t[j]] = n[j]
+                for (let j in meansToString) {
+                    if (randoms[meansToString[j]] == null) {
+                        randoms[meansToString[j]] = randomMeans[j]
                     } else {
-                        n[j] = randoms[t[j]];
+                        randomMeans[j] = randoms[meansToString[j]];
                     }
                 }
 
-                if (n[0][1] > max) max = n[0][1];
-                if (n[1][1] > max) max = n[1][1];
-                if (n[2][1] > max) max = n[2][1];
+                if (randomMeans[0][1] > max) max = randomMeans[0][1];
+                if (randomMeans[1][1] > max) max = randomMeans[1][1];
+                if (randomMeans[2][1] > max) max = randomMeans[2][1];
 
-                let u = [JSON.stringify(n[0]),JSON.stringify(n[1]),JSON.stringify(n[2])]
-                //console.log(JSON.stringify([1,2]) === JSON.stringify([1,3]))
+                let randomMeansToString = [JSON.stringify(randomMeans[0]),JSON.stringify(randomMeans[1]),JSON.stringify(randomMeans[2])]
 
                 for (let j = 0; j < 3; j++) {
                     for (let l = 0;l < 3; l++) {
-                        if (margins[o[j]] == l){
-                            if(margins[o[(j+1) % 3]] == l) {
-                                margins[u[j]] = l;
-                            } else if (margins[o[(j+1) % 3]] == ((l+1) % 3)) {
-                                //margins[u[j]] = l;
-                                if (JSON.stringify(p[j]) == JSON.stringify(points[0][l]) || JSON.stringify(p[(j+1) % 3]) == JSON.stringify(points[0][(l+1) % 3])){
-                                    margins[u[j]] = l;
+                        if (margins[pointsToString[j]] == l){
+                            if(margins[pointsToString[(j+1) % 3]] == l) {
+                                margins[randomMeansToString[j]] = l;
+                            } else if (margins[pointsToString[(j+1) % 3]] == ((l+1) % 3)) {
+                                if (JSON.stringify(currentPoints[j]) == JSON.stringify(points[0][l]) || JSON.stringify(currentPoints[(j+1) % 3]) == JSON.stringify(points[0][(l+1) % 3])){
+                                    margins[randomMeansToString[j]] = l;
                                 }
                             }
                         }
@@ -187,10 +185,10 @@ export default function Mountain(props) {
                 }
 
 
-                points.push([p[0],n[0],n[2]]);
-                points.push([p[1],n[1],n[0]]);
-                points.push([p[2],n[2],n[1]]);
-                points.push([n[1],n[2],n[0]]);
+                points.push([currentPoints[0],randomMeans[0],randomMeans[2]]);
+                points.push([currentPoints[1],randomMeans[1],randomMeans[0]]);
+                points.push([currentPoints[2],randomMeans[2],randomMeans[1]]);
+                points.push([randomMeans[1],randomMeans[2],randomMeans[0]]);
             }
             g = h;
             k++;
@@ -207,8 +205,6 @@ export default function Mountain(props) {
             let fb1 = -500 * fa1; 
             let fa2 = 1 / (450 - 300);
             let fb2 = -300 * fa2; 
-            let fa3 = 1 / (300 - 250);
-            let fb3 = -250 * fa3; 
             if (y >= start + 2 * height / 3) {
                 let c1 = fa1 * y + fb1;
                 let c = weightedRandom({0:c1, 1:(1 - c1)})
@@ -218,7 +214,6 @@ export default function Mountain(props) {
                 let c = weightedRandom({0:0.1, 1:c1, 2:(0.9 - c1)})
                 return colors[colorNrState][c];
             } else {
-                //let c1 = fa3 * y + fb3;
                 let c = weightedRandom({2:0.15, 3:0.85})
                 return colors[colorNrState][c];
             }
