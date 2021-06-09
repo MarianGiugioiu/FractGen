@@ -47,8 +47,7 @@ public class AccountController {
 
   @GetMapping(value = "/exists/email/{email}")
   public ResponseEntity<Boolean> existsByName (@PathVariable("email") String email){
-    //boolean exists = accountService.existsByEmail(email);
-    boolean exists = false;
+    boolean exists = accountService.existsByEmail(email);
     return new ResponseEntity<>(exists, HttpStatus.OK);
   }
 
@@ -73,20 +72,6 @@ public class AccountController {
     return new ResponseEntity<>(id, HttpStatus.OK);
   }
 
-  @PostMapping("/process_reset_password")
-  public String processResetPassword(@RequestBody Email email, HttpServletRequest request)
-    throws UnsupportedEncodingException, MessagingException {
-    String result = "Can't send mail";
-    try {
-      result = accountService.ProcessPasswordReset(email, getSiteURL(request));
-    } catch (ResourceNotFoundException e) {
-      throw new ResponseStatusException(
-        HttpStatus.NOT_FOUND, "No Account found with this email", new ResourceNotFoundException()
-      );
-    }
-    return result;
-  }
-
   @PostMapping("/process_register")
   public String processRegister(@RequestBody AccountName accountName, HttpServletRequest request)
     throws UnsupportedEncodingException, MessagingException {
@@ -102,6 +87,20 @@ public class AccountController {
     savedAccount.setProfile(profile.getBody());
     accountService.updateAccount(savedAccount.getId(), savedAccount);
     return "register_success";
+  }
+
+  @PostMapping("/process_reset_password")
+  public String processResetPassword(@RequestBody Email email, HttpServletRequest request)
+    throws UnsupportedEncodingException, MessagingException {
+    String result = "Can't send mail";
+    try {
+      result = accountService.ProcessPasswordReset(email, getSiteURL(request));
+    } catch (ResourceNotFoundException e) {
+      throw new ResponseStatusException(
+        HttpStatus.NOT_FOUND, "No Account found with this email", new ResourceNotFoundException()
+      );
+    }
+    return result;
   }
 
   private String getSiteURL(HttpServletRequest request) {

@@ -187,10 +187,6 @@ public class AccountService {
     return account.getProfile().getId();
   }
 
-  public boolean existsByEmail (String email){
-    return accountRepo.existsByEmail(email);
-  }
-
   public String changePassword(NewPassword newPassword) throws ResourceNotFoundException, ResourceIncompatibleException{
     Account account = accountRepo.findById(newPassword.getId()).orElseThrow(ResourceNotFoundException::new);
     if (!passwordService.matches(newPassword.getPassword(),account.getPassword())) {
@@ -202,6 +198,10 @@ public class AccountService {
 
     accountRepo.save(account);
     return "Password successfully changed";
+  }
+
+  public boolean existsByEmail (String email){
+    return accountRepo.existsByEmail(email);
   }
 
   public Account updateAccount (long id, Account account) {
