@@ -72,7 +72,7 @@ export default function ChangePassword(props) {
                     <Loader
                         style={{display: loadingAccountState == 1 ? "flex" : "none"}}
                         type="TailSpin"
-                        color="#000000"
+                        color="#FFF"
                         height={100}
                         width={100}
                     />
