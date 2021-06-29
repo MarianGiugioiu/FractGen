@@ -214,7 +214,7 @@ export default function MyPosting(props) {
                 <div className="myRowSimple">
                     <input 
                         className="form-control"
-                        style={{height:"7vh"}}
+                        style={{height:"7vh", width:"30vw"}}
                         type="text" 
                         name="Text"
                         value={textEditCommentState}
@@ -430,38 +430,40 @@ export default function MyPosting(props) {
                 overflowY: "scroll"
             }}>
                 <div className="myRow3">
-                    <pre className="fw-bold text-muted fs-5">Name: </pre>
-                    <pre className="fs-5">{isLoading === 1 ? postingState.fractal.name : ""}</pre>
+                    <pre className="fw-bold text-muted" style={{fontSize:"1.7vw"}}>Name: </pre>
+                    <pre style={{fontSize:"1.7vw"}}>{isLoading === 1 ? postingState.fractal.name : ""}</pre>
         
                 </div>
-                <hr/>
                 <div className="myColumn3">
-                    <pre className="fw-bold text-muted fs-6">Description: </pre>
-                    <pre style={{width: "35vw", wordWrap:"break-word", textAlign:"center"}} className="fs-6">{isLoading === 1 ? postingState.fractal.description : ""}</pre>
+                    <pre className="fw-bold text-muted" style={{fontSize:"1.5vw"}}>Description: </pre>
+                    <pre style={{fontSize:"1.5vw", width: "35vw", wordWrap:"break-word", textAlign:"center"}}>{isLoading === 1 ? postingState.fractal.description : ""}</pre>
                 </div>
                 <div className="myRow3">
-                    <pre className="fw-bold text-muted fs-6">Created by: </pre>
+                    <pre className="fw-bold text-muted" style={{fontSize:"1.5vw"}}>Created by: </pre>
                     <Link to={isLoading ===1 ? ("/profile/" + postingState.profile.id) : "myprofile"}>
-                        <pre className="fs-6">{isLoading === 1 ? postingState.profile.name : ""}</pre>
+                        <pre style={{fontSize:"1.5vw"}}>{isLoading === 1 ? postingState.profile.name : ""}</pre>
                     </Link>
+                </div>
+                <div className="myRow3">
+                    <pre className="fw-bold text-muted" style={{fontSize:"1.5vw"}}>At: {isLoading === 1 ? postingState.posterDate : ""}</pre>
                 </div>
                 <img className="rounded img-thumbnail mx-auto d-block" src={isLoading === 1 ? postingState.fractal.dataURL : ""} height="200" width="200"></img>
                 <div className="myRow3 mt-2">
-                    <button className = {likePostButtonColor == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-up" : "btn btn-outline-secondary bi bi-hand-thumbs-up-fill"} onClick={likePost}><span className="badge bg-success ms-1">{isLoading === 1 ? postingState.likedBy.length : ""}</span></button>
+                    <button className = {likePostButtonColor == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-up" : "btn btn-outline-secondary bi bi-hand-thumbs-up-fill"} onClick={likePost} style={{width:"9vw"}}><span className="badge bg-success ms-1" style={{fontSize:"1.2vw"}}>{isLoading === 1 ? postingState.likedBy.length : ""}</span></button>
                     <pre>  </pre>
-                    <button className = {dislikePostButtonColor == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-down" : "btn btn-outline-secondary bi bi-hand-thumbs-down-fill"} onClick={dislikePost}><span className="badge bg-danger ms-1">{isLoading === 1 ? postingState.dislikedBy.length : ""}</span></button>
+                    <button className = {dislikePostButtonColor == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-down" : "btn btn-outline-secondary bi bi-hand-thumbs-down-fill"} onClick={dislikePost} style={{width:"9vw"}}><span className="badge bg-danger ms-1" style={{fontSize:"1.2vw"}}>{isLoading === 1 ? postingState.dislikedBy.length : ""}</span></button>
                 </div>
                 <div style={{
                     display:"flex",
                     alignItems: "center",
                     flexDirection: "column"
                 }}> 
-                    <button className="btn btn-outline-primary mt-2" style={{visibility:(isLoading == 0 ? "hidden" : "visible")}} onClick={addComment}>Add Comment</button>
-                    <pre style={{visibility:(isLoading == 0 ? "hidden" : "visible")}}>Comments:</pre>
+                    <button className="btn btn-outline-primary mt-2" style={{visibility:(isLoading == 0 ? "hidden" : "visible")}} onClick={addComment}><span style={{fontSize:"1.6vw"}}>Add Comment</span></button>
+                    <pre style={{visibility:(isLoading == 0 ? "hidden" : "visible"),fontSize:"1.5vw"}}>Comments:</pre>
                     <div className="myRowSimple" style = {{display:newCommentHiddenState == "visible" ? "flex" : "none"}}>
                         <input 
                             className="form-control"
-                            style={{height:"7vh"}}
+                            style={{height:"7vh",width:"20vw"}}
                             type="text" 
                             name="Text"
                             value={textNewCommentState}
@@ -482,17 +484,17 @@ export default function MyPosting(props) {
                                         <div id={i} > 
                                             <hr></hr>
                                             <div className="myRowSimple">
-                                                <pre><span className="fw-bold">{object.profile.id != profileId ? object.createdBy : "Me"}</span> at <span className="fw-light fst-italic text-muted">{object.lastModified} {object.edited == true ? "edited" : ""}</span>  </pre>
+                                                <pre style={{fontSize:"1.5vw"}}><span className="fw-bold">{object.profile.id != profileId ? object.createdBy : "Me"}</span> at <span className="fw-light fst-italic text-muted">{object.lastModified} {object.edited == true ? "edited" : ""}</span>  </pre>
                                                 <div className="btn-group" role="group">
-                                                    <button className="btn btn-outline-secondary" id={i} style={{visibility:(object.profile.id != profileId ? "hidden" : "visible")}} onClick={() => startEditingComment(object,i)}>Edit</button>
-                                                    <button className="btn btn-outline-danger" style={{visibility:(object.profile.id != profileId ? "hidden" : "visible")}} onClick={() => deleteComment(object.id, i)}>Delete</button>
+                                                    <button className="btn btn-outline-secondary" id={i} style={{visibility:(object.profile.id != profileId ? "hidden" : "visible"),width:"5vw"}} onClick={() => startEditingComment(object,i)}><span style={{fontSize:"1.5vw"}}>Edit</span></button>
+                                                    <button className="btn btn-outline-danger" style={{visibility:(object.profile.id != profileId ? "hidden" : "visible"),width:"7vw"}} onClick={() => deleteComment(object.id, i)}><span style={{fontSize:"1.5vw"}}>Delete</span></button>
                                                 </div>
                                             </div>
                                             {CommentText(object,i)}
                                             <div className="mt-2" style={{display:"flex"}}>
-                                                <button className = {likeCommentButtonsColor[i] == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-up" : "btn btn-outline-secondary bi bi-hand-thumbs-up-fill"} onClick={() => likeComment(object, i)}><span className="badge bg-success ms-1">{isLoading === 1 ? object.likedBy.length : ""}</span></button>
+                                                <button className = {likeCommentButtonsColor[i] == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-up" : "btn btn-outline-secondary bi bi-hand-thumbs-up-fill"} onClick={() => likeComment(object, i)} style={{width:"9vw"}}><span className="badge bg-success ms-1" style={{fontSize:"1.2vw"}}>{isLoading === 1 ? object.likedBy.length : ""}</span></button>
                                                 <pre>  </pre>
-                                                <button className = {dislikeCommentButtonsColor[i] == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-down" : "btn btn-outline-secondary bi bi-hand-thumbs-down-fill"} onClick={() => dislikeComment(object, i)}><span className="badge bg-danger ms-1">{isLoading === 1 ? object.dislikedBy.length : ""}</span></button>
+                                                <button className = {dislikeCommentButtonsColor[i] == "#FFF" ? "btn btn-outline-secondary bi bi-hand-thumbs-down" : "btn btn-outline-secondary bi bi-hand-thumbs-down-fill"} onClick={() => dislikeComment(object, i)} style={{width:"9vw"}}><span className="badge bg-danger ms-1" style={{fontSize:"1.2vw"}}>{isLoading === 1 ? object.dislikedBy.length : ""}</span></button>
                                             </div>
                                         </div>
                                     );

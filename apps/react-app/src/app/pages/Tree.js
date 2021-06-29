@@ -48,51 +48,50 @@ export default function Tree(props){
     const [loadingPostState,setLoadingPostState] = useState(0);
     
     
-    const drawTree = useCallback((rand, context, startX, startY, length, branchWidth, nrBranchesList, angle, angleList, curveList, bodyColor, leafColor, shadowColor)  => {
-        context.beginPath();
-        //console.log(branchWidth);
+    function drawTree(rand, context, startX, startY,
+        length, branchWidth, nrBranches, angle, angleList,
+        curveList, bodyColor, leafColor, shadowColor) {
         context.save();
-        context.strokeStyle = 'rgb(' + bodyColor.r + ',' + bodyColor.g + ',' + bodyColor.b + ',' + bodyColor.a + ')';
-        context.fillStyle = 'rgb(' + leafColor.r + ',' + leafColor.g + ',' + leafColor.b + ',' + leafColor.a + ')';
+        context.beginPath();
+        context.translate(startX,startY);
+        context.lineWidth = branchWidth;
+        context.strokeStyle = 'rgb(' + bodyColor.r + ',' + bodyColor.g +
+            ',' +bodyColor.b + ',' + bodyColor.a + ')';
+        context.fillStyle = 'rgb(' + leafColor.r + ',' + leafColor.g +
+            ',' + leafColor.b + ',' + leafColor.a + ')';
 
         context.shadowBlur = 5;
-        context.shadowColor = 'rgb(' + shadowColor.r + ',' + shadowColor.g + ',' + shadowColor.b + ',' + shadowColor.a + ')';
-        
-        context.lineWidth = branchWidth;
-        context.translate(startX,startY);
+        context.shadowColor = 'rgb(' + shadowColor.r + ',' + shadowColor.g +
+            ',' + shadowColor.b + ',' + shadowColor.a + ')';
 
-        var curve = 0;
+        let curve = 0;
 
         if (rand){
             angleList.push(angle);
-            var curve = Math.floor(Math.random() * 3 + 3);
+            curve = Math.floor(Math.random() * 3 + 3);
             curveList.push(curve);
         } else {
             angle = angleList.pop();
             curve = curveList.pop();
         }
 
-
         context.rotate(angle * Math.PI / 180);
         context.moveTo(0,0);
         
         if(angle > 0){
-            context.bezierCurveTo(curve, -length/2, curve, -length/2, 0, -length)
+            context.bezierCurveTo(curve, -length/2, curve, -length/2, 0,-length)
         } else {
-            context.bezierCurveTo(curve, -length/2, -curve, -length/2, 0, -length)
+            context.bezierCurveTo(curve, -length/2, -curve, -length/2, 0,-length)
         }
         context.stroke();
 
-        if(length < 20){
+        if(length < 30){
             context.beginPath();
             context.arc(0, -length, 20, 0, Math.PI/2);
             context.fill();
             context.restore();
             return;
         }
-        //var nrBranches = Math.floor(Math.random() + 2);
-        var nrBranches = 3;
-        //console.log(nrBranches)
         if(rand){
             for(let i =  1; i <= nrBranches - nrBranches % 2 ; i++){
                 var angleDiff = Math.random() * 30 + 10;
@@ -100,8 +99,9 @@ export default function Tree(props){
                     angleDiff = -angleDiff;
                 }
                 var newAngle = angle + angleDiff;
-                //console.log(newAngle)
-                drawTree(rand, context, 0 , -length, length * 0.75, branchWidth * 0.7, nrBranchesList , newAngle, angleList, curveList, bodyColor, leafColor, shadowColor);
+                drawTree(rand, context, 0 , -length, length * 0.75, 
+                    branchWidth * 0.7, nrBranches , newAngle, angleList,
+                    curveList, bodyColor, leafColor, shadowColor);
             }
             if (nrBranches % 2) {
                 var sign = Math.floor(Math.random() * 2)
@@ -111,18 +111,20 @@ export default function Tree(props){
                     angleDiff = -angleDiff;
                 }
                 var newAngle = angle + angleDiff;
-                //console.log(newAngle)
-                drawTree(rand, context,0 , -length, length * 0.75, branchWidth * 0.7, nrBranchesList , newAngle, angleList, curveList, bodyColor, leafColor, shadowColor);
+                drawTree(rand, context,0 , -length, length * 0.75,
+                    branchWidth * 0.7, nrBranches , newAngle, angleList,
+                    curveList, bodyColor, leafColor, shadowColor);
             }
         } else {
             for(let i =  1; i <= nrBranches; i++){
-                drawTree(rand, context,0 , -length, length * 0.75, branchWidth * 0.7, nrBranchesList , angle, angleList, curveList, bodyColor, leafColor, shadowColor);
+                drawTree(rand, context,0 , -length, length * 0.75,
+                    branchWidth * 0.7, nrBranches , angle, angleList,
+                    curveList, bodyColor, leafColor, shadowColor);
             }
         }
-
-        context.restore();
         
-    }, [bodyColorState,leafColorState,shadowColorState])
+        context.restore();
+    }
 
     const randomTree = useCallback(()  => {
         const canvas = canvasRef.current;
@@ -144,10 +146,6 @@ export default function Tree(props){
         let branchWidth = Math.floor(Math.random() * 7 + 10);
         setBranchWidthState(branchWidth);
 
-        //console.log(startX, startY, length, branchWidth)
-
-        //let color1 = 'rgb(' + Math.random() * 255 + ',' + Math.random() * 255 + ',' + Math.random() * 255 + ')';
-        //let color2 = 'rgb(' + Math.random() * 255 + ',' + Math.random() * 255 + ',' + Math.random() * 255 + ')';
         var bodyColor = bodyColorState;
         var leafColor = leafColorState;
         var shadowColor = shadowColorState;
@@ -155,22 +153,11 @@ export default function Tree(props){
         let curveList = [];
         let angleList = [];
 
-        drawTree(true, context, startX, startY , length, branchWidth, 3, 0, angleList, curveList, bodyColor, leafColor, shadowColor);
+        drawTree(true, context, startX, startY , length, branchWidth, 4, 0, angleList, curveList, bodyColor, leafColor, shadowColor);
         
         setAngleListState(angleList.reverse());
         setCurveListState(curveList.reverse());
 
-        //console.log(angleListState);
-
-        //console.log(angleList)
-        //console.log("####")
-        /*context.beginPath();
-        context.save();
-        context.strokeStyle = 'blue';
-        context.fillStyle = 'red';
-        context.rect(100, 100, 100, 100);
-        context.stroke();
-        context.fill();*/
         const canvas1 = canvasRef1.current;
         const context1 = canvas1.getContext('2d');
         canvas1.width = canvasDimX;
@@ -208,10 +195,7 @@ export default function Tree(props){
 
         let branchWidth = branchWidthState;
 
-        //console.log(startX, startY, length, branchWidth)
-
-        //let color1 = 'rgb(' + Math.random() * 255 + ',' + Math.random() * 255 + ',' + Math.random() * 255 + ')';
-        //let color2 = 'rgb(' + Math.random() * 255 + ',' + Math.random() * 255 + ',' + Math.random() * 255 + ')';
+        
         var bodyColor = bodyColorState;
         var leafColor = leafColorState;
         var shadowColor = shadowColorState;
@@ -219,12 +203,8 @@ export default function Tree(props){
         let curveList = [...curveListState];
         let angleList = [...angleListState];
 
-        drawTree(false, context, startX, startY , length, branchWidth, 3, 0, angleList, curveList, bodyColor, leafColor, shadowColor);
+        drawTree(false, context, startX, startY , length, branchWidth, 4, 0, angleList, curveList, bodyColor, leafColor, shadowColor);
 
-        //console.log(angleList);
-
-        //console.log(angleList)
-        //console.log("####")
         const canvas1 = canvasRef1.current;
         const context1 = canvas1.getContext('2d');
         canvas1.width = canvasDimX;

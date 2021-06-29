@@ -141,6 +141,7 @@ export default function SnowFlake(props){
         context2.save();
         context2.strokeStyle = "white"
         context2.fillStyle = "white";
+        context2.lineWidth = 10;
         context2.moveTo(canvasDimX/2,canvasDimY/2);
         context2.fillRect(canvasDimX/2,canvasDimY/2,10,10);
         context2.fillRect(bcx1State,bcy1State,10,10);
@@ -159,7 +160,6 @@ export default function SnowFlake(props){
         var offsetY = offset.top;
         var width = offset.width;
         var height = offset.height;
-        //console.log("##")
         console.log(offset);
         console.log(offsetX,offsetY)
         console.log(width,height)
@@ -375,7 +375,7 @@ export default function SnowFlake(props){
                             width:"24vw"
                         }}>
                         <div className="slidecontainer">
-                            <label style={{fontSize:"1.2vw"}}>Rotation: {nrFiguresState}</label>
+                            <label style={{fontSize:"1.2vw"}}>Nr Figures: {nrFiguresState}</label>
                             <input style={{width:"60%"}} onInput={(event) => setNrFiguresState(event.target.value)} value={nrFiguresState} defaultValue="1" type="range" step="1" min="1" max="10" className="slider" id="myRange4" />  
                         </div>
                         <div className="slidecontainer">

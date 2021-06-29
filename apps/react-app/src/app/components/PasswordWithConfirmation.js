@@ -35,7 +35,7 @@ export default function PasswordWithConfirmation(props) {
     return (
         <>
             <div style={{display:'flex',flexDirection: 'column' , alignItems: 'center'}}>
-                <label className="form-label">{props.label}</label>
+                <label className="form-label" style={{fontSize:"1.5vw"}}>{props.label}</label>
                 <input 
                     type="password"
                     className="form-control"
@@ -49,10 +49,10 @@ export default function PasswordWithConfirmation(props) {
                 {
                     //props.passwordState != "" ?
                     (checkPassword(props.passwordState) != "ok" ?
-                    <pre className="text-danger">{checkPassword(props.passwordState)}</pre> :
+                    <pre className="text-danger" style={{fontSize:"1.2vw"}}>{checkPassword(props.passwordState)}</pre> :
                     (
                     props.passwordState != props.confirmPasswordState ?
-                    <pre className="text-danger">Password and confirmation must be equal</pre> :
+                    <pre className="text-danger" style={{fontSize:"1.2vw"}}>Password and confirmation must be equal</pre> :
                     <></>
                     ))
                     //:<></>
@@ -60,18 +60,18 @@ export default function PasswordWithConfirmation(props) {
                 {
                     passwordRequirements ? 
                     <div>
-                    <p className="text-danger">Password:</p>
-                    <p className="text-danger">-must have between 6 and 20 characters</p>
-                    <p className="text-danger">-must contain at least one digit</p>
-                    <p className="text-danger">-must contain at least one lowercase letter</p>
-                    <p className="text-danger">-must contain at least one capital letter</p>
-                    <p className="text-danger">can contain one of the following symbols: !@#$%^&*()_+</p>
+                    <p className="text-danger" style={{fontSize:"1.2vw"}}>Password:</p>
+                    <p className="text-danger" style={{fontSize:"1.2vw"}}>-must have between 6 and 20 characters</p>
+                    <p className="text-danger" style={{fontSize:"1.2vw"}}>-must contain at least one digit</p>
+                    <p className="text-danger" style={{fontSize:"1.2vw"}}>-must contain at least one lowercase letter</p>
+                    <p className="text-danger" style={{fontSize:"1.2vw"}}>-must contain at least one capital letter</p>
+                    <p className="text-danger" style={{fontSize:"1.2vw"}}>can contain one of the following symbols: !@#$%^&*()_+</p>
                     </div> :
                     <></>
                 }
             </div>
             <div style={{display:'flex',flexDirection: 'column' , alignItems: 'center'}}>
-                <label className="form-label">Confirm Password</label>
+                <label className="form-label" style={{fontSize:"1.5vw"}}>Confirm Password</label>
                 <input 
                     type="password"
                     className="form-control"

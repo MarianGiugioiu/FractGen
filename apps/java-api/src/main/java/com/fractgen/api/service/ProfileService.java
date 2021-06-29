@@ -112,8 +112,6 @@ public class ProfileService {
     List<PostingWithLikesDTO> postings = new ArrayList<>();
     for (Posting posting : unseenPostings) {
       postings.add(new PostingWithLikesDTO(posting.getId(),posting.getProfile().getId(),posting.getProfile().getName(),posting.getFractal().getName(),posting.getFractal().getDataURL(),posting.getLikedBy().size(),posting.getDislikedBy().size()));
-
-      //posting.setSeenBy(posting.getSeenBy().add(profile));
       newSeen.add(posting);
     }
     profile.setSeen(newSeen);

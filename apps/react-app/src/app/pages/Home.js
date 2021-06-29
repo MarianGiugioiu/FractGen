@@ -28,7 +28,7 @@ function RegisterForm(props) {
         </div> :
         <div className="myColumnSimple">
           <div style={{display:'flex',flexDirection: 'column' , alignItems: 'center'}}>
-            <label className="form-label">Email</label>
+            <label className="form-label" style={{fontSize:"1.5vw"}}>Email</label>
             <input 
               type="text"
               className="form-control"
@@ -42,11 +42,11 @@ function RegisterForm(props) {
                 }
               }}
             />
-            {props.emailState.length < 6 || props.emailState.length > 30 ? <pre className="text-danger">Email must have length between 6 and 30 characters!</pre> : <></>}
-            {props.emailValidationState == 1 ? <pre className="text-danger">An account is already registered with this email!</pre> : <></>}
+            {props.emailState.length < 6 || props.emailState.length > 30 ? <pre className="text-danger" style={{fontSize:"1.2vw"}}>Email must have length between 6 and 30 characters!</pre> : <></>}
+            {props.emailValidationState == 1 ? <pre className="text-danger" style={{fontSize:"1.2vw"}}>An account is already registered with this email!</pre> : <></>}
           </div>
           <div style={{display:'flex',flexDirection: 'column' , alignItems: 'center'}}>
-            <label className="form-label">Name</label>
+            <label className="form-label" style={{fontSize:"1.5vw"}}>Name</label>
             <input 
               type="text"
               className="form-control"
@@ -60,8 +60,8 @@ function RegisterForm(props) {
                 }
               }}
             />
-            {props.nameState.length < 6 || props.nameState.length > 20 ? <pre className="text-danger">Name must have length between 6 and 20 characters!</pre> : <></>}
-            {props.nameValidationState == 1 ? <pre className="text-danger">An account is already registered with this name!</pre> : <></>}
+            {props.nameState.length < 6 || props.nameState.length > 20 ? <pre className="text-danger" style={{fontSize:"1.2vw"}}>Name must have length between 6 and 20 characters!</pre> : <></>}
+            {props.nameValidationState == 1 ? <pre className="text-danger" style={{fontSize:"1.2vw"}}>An account is already registered with this name!</pre> : <></>}
           </div>
           <PasswordWithConfirmation
             label="Password"
@@ -98,7 +98,7 @@ function LoginForm(props) {
   return (
     <div className="myColumnSimple">
       <div style={{display:'flex',flexDirection: 'column' , alignItems: 'center'}}>
-        <label className="form-label">Email</label>
+        <label className="form-label" style={{fontSize:"1.5vw"}}>Email</label>
         <input 
           className="form-control"
           style={{width:"100%"}}
@@ -117,13 +117,13 @@ function LoginForm(props) {
           <br/> : 
           (
             props.emailValidationState == 1 ? 
-            <pre  className="text-danger">There is no account registered with this email!</pre> :
-            <pre  className="text-danger">This account is not verified!</pre>
+            <pre  className="text-danger" style={{fontSize:"1.2vw"}}>There is no account registered with this email!</pre> :
+            <pre  className="text-danger" style={{fontSize:"1.2vw"}}>This account is not verified!</pre>
           )
         }
       </div>
       <div style={{display:'flex',flexDirection: 'column' , alignItems: 'center'}}>
-        <label className="form-label">Password</label>
+        <label className="form-label" style={{fontSize:"1.5vw"}}>Password</label>
         <input 
           className="form-control"
           style={{width:"100%"}}
@@ -137,7 +137,7 @@ function LoginForm(props) {
             }
           }}
         />
-        {props.passwordValidationState == 1 ? <pre  className="text-danger">The password is incorrect!</pre> : <br/>}
+        {props.passwordValidationState == 1 ? <pre  className="text-danger" style={{fontSize:"1.2vw"}}>The password is incorrect!</pre> : <br/>}
       </div>
 
       <hr></hr>
@@ -271,7 +271,6 @@ export default function Home() {
       "email": emailState,
       "password": passwordState
     }
-    console.log(account);
     httpService
       .post(URL, account)
       .then((response) => {
@@ -279,7 +278,6 @@ export default function Home() {
         if (response.status == 200) {
           setPasswordValidationState(0);
           setEmailValidationState(0);
-          //setMyId(response.data);
           authentication.logIn(response.data);
           let path = "/"
           history.push(path);
@@ -402,7 +400,10 @@ export default function Home() {
             padding: "4px"
           }}
         >
-          <h3 className="fw-light">Home</h3>
+          <h3 className="fw-light" style={{fontSize:"1.5vw"}}>Welcome to Fractal World</h3>
+          <h4 className="fw-light" style={{fontSize:"1.2vw"}}>This application is dedicated to creating landscapes with the help of fractals.</h4>
+          <h4 className="fw-light" style={{fontSize:"1.2vw"}}>You can search here for other people and see their latest postings,</h4>
+          <h4 className="fw-light" style={{fontSize:"1.2vw"}}>or you can go to the generator to start creating your own. Have fun!</h4>
           <label className="form-label" style={{fontSize:"1vw"}}>Enter Name:</label>
           <input
             type="text"
