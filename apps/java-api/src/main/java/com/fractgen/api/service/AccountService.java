@@ -20,6 +20,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -172,11 +173,11 @@ public class AccountService {
     return accountRepo.findAll();
   }
 
-  public Optional<Account> getAccountById (long id){
+  public Optional<Account> getAccountById (UUID id){
     return accountRepo.findById(id);
   }
 
-  public long login (AccountDTO accountDTO) throws ResourceNotFoundException, ResourceIncompatibleException, EmailNotVerifiedException {
+  public UUID login (AccountDTO accountDTO) throws ResourceNotFoundException, ResourceIncompatibleException, EmailNotVerifiedException {
     Account account = accountRepo.findByEmail(accountDTO.getEmail()).orElseThrow(ResourceNotFoundException::new);
     if (!account.isEnabled()) {
       throw new EmailNotVerifiedException();
@@ -204,7 +205,7 @@ public class AccountService {
     return accountRepo.existsByEmail(email);
   }
 
-  public Account updateAccount (long id, Account account) {
+  public Account updateAccount (UUID id, Account account) {
     Account accountToUpdate = accountRepo.findById(id).get();
     if(account.getEmail() != null) {
       accountToUpdate.setEmail(account.getEmail());
@@ -219,11 +220,11 @@ public class AccountService {
     return accountRepo.save(accountToUpdate);
   }
 
-  public void deleteAccount (long id) {
+  public void deleteAccount (UUID id) {
     accountRepo.deleteById(id);
   }
 
-  public boolean accountExists (long id) {
+  public boolean accountExists (UUID id) {
     return accountRepo.existsById(id);
   }
 }

@@ -5,19 +5,33 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fractgen.api.serializer.PostingSerializer;
 import com.fractgen.api.serializer.ProfileSerializer;
 import com.fractgen.api.serializer.ProfilesSerializer;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "comment")
 public class Comment {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "comment_id")
-  private long id;
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+    name = "UUID",
+    strategy = "org.hibernate.id.UUIDGenerator",
+    parameters = {
+      @org.hibernate.annotations.Parameter(
+        name = "uuid_gen_strategy_class",
+        value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+      )
+    }
+  )
+  @Type(type="uuid-char")
+  @Column(name = "comment_id", updatable = false, nullable = false)
+  private UUID id;
 
   @Column(name = "creator", length = 50)
   private String createdBy;
@@ -69,11 +83,11 @@ public class Comment {
     this.createdBy = createdBy;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -138,8 +152,8 @@ public class Comment {
     if (this == o) return true;
     if (!(o instanceof Comment)) return false;
     Comment comment = (Comment) o;
-    return id == comment.id &&
-      edited == comment.edited &&
+    return edited == comment.edited &&
+      Objects.equals(id, comment.id) &&
       Objects.equals(createdBy, comment.createdBy) &&
       Objects.equals(text, comment.text) &&
       Objects.equals(lastModified, comment.lastModified) &&

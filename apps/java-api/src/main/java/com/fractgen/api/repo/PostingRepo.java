@@ -8,9 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.UUID;
 
-public interface PostingRepo extends JpaRepository<Posting, Long> {
-  List<Posting> findByProfileId(long id);
-  List<Posting> findFirst2ByProfileIdAndSeenByNotContainsOrderByPosterDateDesc(long id, Profile profile);
+public interface PostingRepo extends JpaRepository<Posting, UUID> {
+  List<Posting> findByProfileId(UUID id);
+  List<Posting> findFirst2ByProfileIdAndSeenByNotContainsOrderByPosterDateDesc(UUID id, Profile profile);
 
 }

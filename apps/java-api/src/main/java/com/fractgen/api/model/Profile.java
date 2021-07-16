@@ -5,19 +5,33 @@ import com.fractgen.api.serializer.AccountSerializer;
 import com.fractgen.api.serializer.CommentsSerializer;
 import com.fractgen.api.serializer.PostingsSerializer;
 import com.fractgen.api.serializer.ProfilesSerializer;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "profile")
 public class Profile {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "profile_id")
-  private long id;
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+    name = "UUID",
+    strategy = "org.hibernate.id.UUIDGenerator",
+    parameters = {
+      @org.hibernate.annotations.Parameter(
+        name = "uuid_gen_strategy_class",
+        value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+      )
+    }
+  )
+  @Type(type="uuid-char")
+  @Column(name = "profile_id", updatable = false, nullable = false)
+  private UUID id;
 
   @Column(name = "profile_name", length = 50)
   private String name;
@@ -124,11 +138,11 @@ public class Profile {
     this.photo = photo;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -209,7 +223,7 @@ public class Profile {
     if (this == o) return true;
     if (!(o instanceof Profile)) return false;
     Profile profile = (Profile) o;
-    return id == profile.id &&
+    return Objects.equals(id, profile.id) &&
       Objects.equals(name, profile.name) &&
       Objects.equals(description, profile.description) &&
       Objects.equals(photo, profile.photo) &&
@@ -221,11 +235,12 @@ public class Profile {
       Objects.equals(likedComments, profile.likedComments) &&
       Objects.equals(dislikedComments, profile.dislikedComments) &&
       Objects.equals(seen, profile.seen) &&
-      Objects.equals(account, profile.account);
+      Objects.equals(account, profile.account) &&
+      Objects.equals(comments, profile.comments);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, photo, privacy, following, followed, likes, dislikes, likedComments, dislikedComments, seen, account);
+    return Objects.hash(id, name, description, photo, privacy, following, followed, likes, dislikes, likedComments, dislikedComments, seen, account, comments);
   }
 }

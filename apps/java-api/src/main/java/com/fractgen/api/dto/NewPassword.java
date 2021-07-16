@@ -1,9 +1,10 @@
 package com.fractgen.api.dto;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class NewPassword {
-  private long id;
+  private UUID id;
   private String password;
   private String newPassword;
 
@@ -15,11 +16,11 @@ public class NewPassword {
   public NewPassword() {
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -44,7 +45,7 @@ public class NewPassword {
     if (this == o) return true;
     if (!(o instanceof NewPassword)) return false;
     NewPassword that = (NewPassword) o;
-    return id == that.id &&
+    return Objects.equals(id, that.id) &&
       Objects.equals(password, that.password) &&
       Objects.equals(newPassword, that.newPassword);
   }

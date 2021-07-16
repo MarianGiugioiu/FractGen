@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/posting")
@@ -26,7 +27,7 @@ public class PostingController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<Posting> getPostingById (@PathVariable("id") long id){
+  public ResponseEntity<Posting> getPostingById (@PathVariable("id") UUID id){
     Posting posting = postingService.getPostingById(id)
       .orElseThrow(() -> new ResponseStatusException(
         HttpStatus.NOT_FOUND, "No Posting found with this ID", new ResourceNotFoundException()
@@ -35,7 +36,7 @@ public class PostingController {
   }
 
   @GetMapping(value = "/{id}/comments")
-  public ResponseEntity<List<Comment>> getCommentsByPostingId (@PathVariable("id") long id){
+  public ResponseEntity<List<Comment>> getCommentsByPostingId (@PathVariable("id") UUID id){
     List<Comment> commentList = postingService.getAllComments(id);
     return new ResponseEntity<>( commentList, HttpStatus.OK);
   }
@@ -47,7 +48,7 @@ public class PostingController {
   }
 
   @PutMapping(value = ("/{id}"))
-  public ResponseEntity<Posting> updatePosting (@PathVariable("id") long id,
+  public ResponseEntity<Posting> updatePosting (@PathVariable("id") UUID id,
                                                 @RequestBody Posting posting) {
     if (postingService.postingExists(id)) {
       Posting updatedPosting = postingService.updatePosting(id, posting);
@@ -60,7 +61,7 @@ public class PostingController {
   }
 
   @DeleteMapping(value = ("/{id}"))
-  public ResponseEntity<HttpStatus> deletePosting (@PathVariable("id") long id) {
+  public ResponseEntity<HttpStatus> deletePosting (@PathVariable("id") UUID id) {
     if (postingService.postingExists(id)) {
       postingService.deletePosting(id);
       return new ResponseEntity<>(HttpStatus.ACCEPTED);

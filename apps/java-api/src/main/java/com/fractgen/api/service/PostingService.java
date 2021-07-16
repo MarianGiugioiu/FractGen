@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PostingService {
@@ -21,11 +22,11 @@ public class PostingService {
     return postingRepo.findAll();
   }
 
-  public Optional<Posting> getPostingById (long id){
+  public Optional<Posting> getPostingById (UUID id){
     return postingRepo.findById(id);
   }
 
-  public List<Comment> getAllComments (long id) {
+  public List<Comment> getAllComments (UUID id) {
     return commentRepo.findByPostingId(id);
   }
 
@@ -41,7 +42,7 @@ public class PostingService {
     return postingRepo.save(postingToSave);
   }
 
-  public Posting updatePosting (long id, Posting posting) {
+  public Posting updatePosting (UUID id, Posting posting) {
     Posting postingToUpdate = postingRepo.findById(id).get();
     if(posting.getPosterDate() != null) {
       postingToUpdate.setPosterDate(posting.getPosterDate());
@@ -65,11 +66,11 @@ public class PostingService {
     return postingRepo.save(postingToUpdate);
   }
 
-  public void deletePosting (long id) {
+  public void deletePosting (UUID id) {
     postingRepo.deleteById(id);
   }
 
-  public boolean postingExists (long id) {
+  public boolean postingExists (UUID id) {
     return postingRepo.existsById(id);
   }
 }

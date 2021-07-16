@@ -3,17 +3,31 @@ package com.fractgen.api.model;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fractgen.api.serializer.FractalSerializer;
 import com.fractgen.api.serializer.ProfileSerializer;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "account")
 public class Account {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "account_id")
-  private long id;
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+    name = "UUID",
+    strategy = "org.hibernate.id.UUIDGenerator",
+    parameters = {
+      @org.hibernate.annotations.Parameter(
+        name = "uuid_gen_strategy_class",
+        value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+      )
+    }
+  )
+  @Type(type="uuid-char")
+  @Column(name = "account_id", updatable = false, nullable = false)
+  private UUID id;
 
   @Column(name = "verification_code", length = 64)
   private String verificationCode;
@@ -60,11 +74,11 @@ public class Account {
     this.verificationResetCode = verificationResetCode;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -97,8 +111,8 @@ public class Account {
     if (this == o) return true;
     if (!(o instanceof Account)) return false;
     Account account = (Account) o;
-    return id == account.id &&
-      enabled == account.enabled &&
+    return enabled == account.enabled &&
+      Objects.equals(id, account.id) &&
       Objects.equals(verificationCode, account.verificationCode) &&
       Objects.equals(verificationResetCode, account.verificationResetCode) &&
       Objects.equals(email, account.email) &&

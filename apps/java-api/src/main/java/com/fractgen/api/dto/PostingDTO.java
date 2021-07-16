@@ -1,33 +1,34 @@
 package com.fractgen.api.dto;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class PostingDTO {
-  private long id;
-  private long idFractal;
+  private UUID id;
+  private UUID idFractal;
   private String name;
   private String image;
 
-  public PostingDTO(long id, long idFractal, String name, String image) {
+  public PostingDTO(UUID id, UUID idFractal, String name, String image) {
     this.id = id;
     this.idFractal = idFractal;
     this.name = name;
     this.image = image;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
-  public long getIdFractal() {
+  public UUID getIdFractal() {
     return idFractal;
   }
 
-  public void setIdFractal(long idFractal) {
+  public void setIdFractal(UUID idFractal) {
     this.idFractal = idFractal;
   }
 
@@ -52,8 +53,8 @@ public class PostingDTO {
     if (this == o) return true;
     if (!(o instanceof PostingDTO)) return false;
     PostingDTO that = (PostingDTO) o;
-    return id == that.id &&
-      idFractal == that.idFractal &&
+    return Objects.equals(id, that.id) &&
+      Objects.equals(idFractal, that.idFractal) &&
       Objects.equals(name, that.name) &&
       Objects.equals(image, that.image);
   }

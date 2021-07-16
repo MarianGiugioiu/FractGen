@@ -1,25 +1,26 @@
 package com.fractgen.api.dto;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class FractalDTO {
-  private long id;
+  private UUID id;
   private String dataURL;
   private String name;
   private String description;
 
-  public FractalDTO(long id, String dataURL, String name, String description) {
+  public FractalDTO(UUID id, String dataURL, String name, String description) {
     this.id = id;
     this.dataURL = dataURL;
     this.name = name;
     this.description = description;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -52,7 +53,7 @@ public class FractalDTO {
     if (this == o) return true;
     if (!(o instanceof FractalDTO)) return false;
     FractalDTO that = (FractalDTO) o;
-    return id == that.id &&
+    return Objects.equals(id, that.id) &&
       Objects.equals(dataURL, that.dataURL) &&
       Objects.equals(name, that.name) &&
       Objects.equals(description, that.description);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/comment")
@@ -24,7 +25,7 @@ public class CommentController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<Comment> getCommentById (@PathVariable("id") long id){
+  public ResponseEntity<Comment> getCommentById (@PathVariable("id") UUID id){
     Comment comment = commentService.getCommentById(id)
       .orElseThrow(() -> new ResponseStatusException(
         HttpStatus.NOT_FOUND, "No Comment found with this ID", new ResourceNotFoundException()
@@ -39,7 +40,7 @@ public class CommentController {
   }
 
   @PutMapping(value = ("/{id}"))
-  public ResponseEntity<Comment> updateComment (@PathVariable("id") long id,
+  public ResponseEntity<Comment> updateComment (@PathVariable("id") UUID id,
                                                 @RequestBody Comment comment) {
     if (commentService.commentExists(id)) {
       Comment updatedComment = commentService.updateComment(id, comment);
@@ -52,7 +53,7 @@ public class CommentController {
   }
 
   @DeleteMapping(value = ("/{id}"))
-  public ResponseEntity<HttpStatus> deleteComment (@PathVariable("id") long id) {
+  public ResponseEntity<HttpStatus> deleteComment (@PathVariable("id") UUID id) {
     if (commentService.commentExists(id)) {
       commentService.deleteComment(id);
       return new ResponseEntity<>(HttpStatus.ACCEPTED);

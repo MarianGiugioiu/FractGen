@@ -1,23 +1,24 @@
 package com.fractgen.api.dto;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class NameImageClass {
-  private long id;
+  private UUID id;
   private String name;
   private String image;
 
-  public NameImageClass(long id, String name, String image) {
+  public NameImageClass(UUID id, String name, String image) {
     this.id = id;
     this.name = name;
     this.image = image;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -42,7 +43,7 @@ public class NameImageClass {
     if (this == o) return true;
     if (!(o instanceof NameImageClass)) return false;
     NameImageClass that = (NameImageClass) o;
-    return id == that.id &&
+    return Objects.equals(id, that.id) &&
       Objects.equals(name, that.name) &&
       Objects.equals(image, that.image);
   }

@@ -241,7 +241,7 @@ export default function SnowFlake(props){
         }
 
         var fractal = {
-            "id": 0,
+            "id": null,
             "type": "snowFlake",
             "status":isPngState,
             "name": nameState,

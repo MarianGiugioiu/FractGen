@@ -1,17 +1,18 @@
 package com.fractgen.api.dto;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class PostingWithLikesDTO {
-  private long id;
-  private long idCreator;
+  private UUID id;
+  private UUID idCreator;
   private String creator;
   private String name;
   private String image;
   private long likes;
   private long dislikes;
 
-  public PostingWithLikesDTO(long id, long idCreator, String creator, String name, String image, long likes, long dislikes) {
+  public PostingWithLikesDTO(UUID id, UUID idCreator, String creator, String name, String image, long likes, long dislikes) {
     this.id = id;
     this.idCreator = idCreator;
     this.creator = creator;
@@ -21,19 +22,19 @@ public class PostingWithLikesDTO {
     this.dislikes = dislikes;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
-  public long getIdCreator() {
+  public UUID getIdCreator() {
     return idCreator;
   }
 
-  public void setIdCreator(long idCreator) {
+  public void setIdCreator(UUID idCreator) {
     this.idCreator = idCreator;
   }
 
@@ -82,10 +83,10 @@ public class PostingWithLikesDTO {
     if (this == o) return true;
     if (!(o instanceof PostingWithLikesDTO)) return false;
     PostingWithLikesDTO that = (PostingWithLikesDTO) o;
-    return id == that.id &&
-      idCreator == that.idCreator &&
-      likes == that.likes &&
+    return likes == that.likes &&
       dislikes == that.dislikes &&
+      Objects.equals(id, that.id) &&
+      Objects.equals(idCreator, that.idCreator) &&
       Objects.equals(creator, that.creator) &&
       Objects.equals(name, that.name) &&
       Objects.equals(image, that.image);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CommentService {
@@ -17,7 +18,7 @@ public class CommentService {
     return commentRepo.findAll();
   }
 
-  public Optional<Comment> getCommentById (long id){
+  public Optional<Comment> getCommentById (UUID id){
     return commentRepo.findById(id);
   }
 
@@ -34,7 +35,7 @@ public class CommentService {
     return commentRepo.save(commentToSave);
   }
 
-  public Comment updateComment (long id, Comment comment) {
+  public Comment updateComment (UUID id, Comment comment) {
     Comment commentToUpdate = commentRepo.findById(id).get();
     if(comment.getText() != null) {
       commentToUpdate.setText(comment.getText());
@@ -62,11 +63,11 @@ public class CommentService {
     return commentRepo.save(commentToUpdate);
   }
 
-  public void deleteComment (long id) {
+  public void deleteComment (UUID id) {
     commentRepo.deleteById(id);
   }
 
-  public boolean commentExists (long id) {
+  public boolean commentExists (UUID id) {
     return commentRepo.existsById(id);
   }
 }

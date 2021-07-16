@@ -6,19 +6,33 @@ import com.fractgen.api.serializer.FractalSerializer;
 import com.fractgen.api.serializer.PostingsSerializer;
 import com.fractgen.api.serializer.ProfileSerializer;
 import com.fractgen.api.serializer.ProfilesSerializer;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "posting")
 public class Posting {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "posting_id")
-  private long id;
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+    name = "UUID",
+    strategy = "org.hibernate.id.UUIDGenerator",
+    parameters = {
+      @org.hibernate.annotations.Parameter(
+        name = "uuid_gen_strategy_class",
+        value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+      )
+    }
+  )
+  @Type(type="uuid-char")
+  @Column(name = "posting_id", updatable = false, nullable = false)
+  private UUID id;
 
   @ManyToOne
   //@JsonSerialize(using = ProfileSerializer.class)
@@ -67,11 +81,11 @@ public class Posting {
   public Posting() {
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -128,17 +142,18 @@ public class Posting {
     if (this == o) return true;
     if (!(o instanceof Posting)) return false;
     Posting posting = (Posting) o;
-    return id == posting.id &&
+    return Objects.equals(id, posting.id) &&
       Objects.equals(profile, posting.profile) &&
       Objects.equals(fractal, posting.fractal) &&
       Objects.equals(posterDate, posting.posterDate) &&
       Objects.equals(likedBy, posting.likedBy) &&
+      Objects.equals(dislikedBy, posting.dislikedBy) &&
       Objects.equals(seenBy, posting.seenBy) &&
-      Objects.equals(dislikedBy, posting.dislikedBy);
+      Objects.equals(comments, posting.comments);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, profile, fractal, posterDate, likedBy, dislikedBy,seenBy);
+    return Objects.hash(id, profile, fractal, posterDate, likedBy, dislikedBy, seenBy, comments);
   }
 }

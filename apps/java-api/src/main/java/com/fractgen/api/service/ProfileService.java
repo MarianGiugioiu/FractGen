@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProfileService {
@@ -25,7 +26,7 @@ public class ProfileService {
     return profileRepo.findAll();
   }
 
-  public Optional<Profile> getProfileById (long id){
+  public Optional<Profile> getProfileById (UUID id){
     return profileRepo.findById(id);
   }
 
@@ -37,7 +38,7 @@ public class ProfileService {
     return profileRepo.existsByName(name);
   }
 
-  public List<ImageDTO> getAllFractals (long id) {
+  public List<ImageDTO> getAllFractals (UUID id) {
     List<Fractal> fractalList = fractalRepo.findByProfileId(id);
     List<ImageDTO> fractals = new ArrayList<>();
     for (Fractal fractal : fractalList) {
@@ -45,7 +46,7 @@ public class ProfileService {
     }
     return fractals;
   }
-  public List<PostingDTO> getAllPostings (long id) {
+  public List<PostingDTO> getAllPostings (UUID id) {
     List<Posting> postingList = postingRepo.findByProfileId(id);
     List<PostingDTO> postings = new ArrayList<>();
     for (Posting posting : postingList) {
@@ -54,7 +55,7 @@ public class ProfileService {
     return postings;
   }
 
-  public ArrayList<NameImageClass> getAllFollowed (long id) {
+  public ArrayList<NameImageClass> getAllFollowed (UUID id) {
     Profile profile = profileRepo.findById(id).orElse(null);
     ArrayList<NameImageClass> followed = new ArrayList<>();
     if (profile != null) {
@@ -65,7 +66,7 @@ public class ProfileService {
     return followed;
   }
 
-  public ArrayList<NameImageClass> getAllFollowing (long id) {
+  public ArrayList<NameImageClass> getAllFollowing (UUID id) {
     Profile profile = profileRepo.findById(id).orElse(null);
     ArrayList<NameImageClass> following = new ArrayList<>();
     if (profile != null) {
@@ -76,7 +77,7 @@ public class ProfileService {
     return following;
   }
 
-  public ArrayList<NameImageClass> getAllLikedPosts (long id) {
+  public ArrayList<NameImageClass> getAllLikedPosts (UUID id) {
     Profile profile = profileRepo.findById(id).orElse(null);
     ArrayList<NameImageClass> likedPosts = new ArrayList<>();
     if (profile != null) {
@@ -87,7 +88,7 @@ public class ProfileService {
     return likedPosts;
   }
 
-  public ArrayList<NameImageClass> getAllDisikedPosts (long id) {
+  public ArrayList<NameImageClass> getAllDisikedPosts (UUID id) {
     Profile profile = profileRepo.findById(id).orElse(null);
     ArrayList<NameImageClass> dislikedPosts = new ArrayList<>();
     if (profile != null) {
@@ -98,14 +99,14 @@ public class ProfileService {
     return dislikedPosts;
   }
 
-  public List<PostingWithLikesDTO> getAllUnseenPostings (long id) {
+  public List<PostingWithLikesDTO> getAllUnseenPostings (UUID id) {
     Profile profile = profileRepo.findById(id).orElse(null);
-    List<Long> followingIds = new ArrayList<>();
+    List<UUID> followingIds = new ArrayList<>();
     for (Profile followed : profile.getFollowing()) {
       followingIds.add(followed.getId());
     }
     List<Posting> unseenPostings = new ArrayList<>();
-    for (Long followingId : followingIds) {
+    for (UUID followingId : followingIds) {
       unseenPostings.addAll(postingRepo.findFirst2ByProfileIdAndSeenByNotContainsOrderByPosterDateDesc(followingId, profile));
     }
     List<Posting> newSeen = profile.getSeen();
@@ -155,7 +156,7 @@ public class ProfileService {
     return profileRepo.save(profileToSave);
   }
 
-  public Profile updateProfile (long id, Profile profile) {
+  public Profile updateProfile (UUID id, Profile profile) {
     Profile profileToUpdate = profileRepo.findById(id).get();
     if(profile.getFollowing() != null) {
       profileToUpdate.setFollowing(profile.getFollowing());
@@ -194,11 +195,11 @@ public class ProfileService {
     return profileRepo.save(profileToUpdate);
   }
 
-  public void deleteProfile (long id) {
+  public void deleteProfile (UUID id) {
     profileRepo.deleteById(id);
   }
 
-  public boolean profileExists (long id) {
+  public boolean profileExists (UUID id) {
     return profileRepo.existsById(id);
   }
 }

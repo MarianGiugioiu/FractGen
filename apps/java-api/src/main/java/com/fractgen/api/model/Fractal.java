@@ -4,19 +4,33 @@ package com.fractgen.api.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fractgen.api.serializer.ProfileSerializer;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "fractal")
 public class Fractal {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "fractal_id")
-  private long id;
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+    name = "UUID",
+    strategy = "org.hibernate.id.UUIDGenerator",
+    parameters = {
+      @org.hibernate.annotations.Parameter(
+        name = "uuid_gen_strategy_class",
+        value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+      )
+    }
+  )
+  @Type(type="uuid-char")
+  @Column(name = "fractal_id", updatable = false, nullable = false)
+  private UUID id;
 
   @Column(name = "fractal_type", length = 50)
   private String type;
@@ -50,11 +64,11 @@ public class Fractal {
   public Fractal() {
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -127,19 +141,20 @@ public class Fractal {
     if (this == o) return true;
     if (!(o instanceof Fractal)) return false;
     Fractal fractal = (Fractal) o;
-    return id == fractal.id &&
+    return status == fractal.status &&
+      Objects.equals(id, fractal.id) &&
       Objects.equals(type, fractal.type) &&
-      Objects.equals(status, fractal.status) &&
       Objects.equals(name, fractal.name) &&
       Objects.equals(description, fractal.description) &&
       Objects.equals(lastModified, fractal.lastModified) &&
       Objects.equals(options, fractal.options) &&
       Objects.equals(dataURL, fractal.dataURL) &&
-      Objects.equals(profile, fractal.profile);
+      Objects.equals(profile, fractal.profile) &&
+      Objects.equals(postings, fractal.postings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, type,status, name, description, lastModified, options, dataURL, profile);
+    return Objects.hash(id, type, status, name, description, lastModified, options, dataURL, profile, postings);
   }
 }

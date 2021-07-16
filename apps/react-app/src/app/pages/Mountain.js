@@ -336,7 +336,7 @@ export default function Mountain(props) {
         }
 
         var fractal = {
-            "id": 0,
+            "id": null,
             "type": "mountain",
             "status":isPngState,
             "name": nameState,

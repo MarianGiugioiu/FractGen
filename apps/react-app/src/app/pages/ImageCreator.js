@@ -58,7 +58,7 @@ export default function ImageCreator(props){
     const [loadingAllImagesState, setLoadingAllImagesState] = useState(0);
     const [partIdListState, setPartIdListState] = useState([]);
     const [btnMakePostingHiddenState, setBtnMakePostingHiddenState] = useState("none");
-    const [newOrOldImageState, setNewOrOldImageState] = useState(0);
+    const [newOrOldImageState, setNewOrOldImageState] = useState(null);
 
     const [partsMissingState, setPartsMissingState] = useState(0);
 
@@ -82,7 +82,7 @@ export default function ImageCreator(props){
             + (currentdate.getMinutes() < 10 ? "0"+ currentdate.getMinutes() : currentdate.getMinutes()) + ":" 
             + (currentdate.getSeconds() < 10 ? "0"+ currentdate.getSeconds() : currentdate.getSeconds())
         var posting = {
-            "id": 0,
+            "id": null,
             "posterDate": datetime,
             "profile": {
                 "id": profileId
@@ -302,7 +302,7 @@ export default function ImageCreator(props){
         if(allImagesState == null){
             loadAllImages();
         }
-        setNewOrOldImageState(0);
+        setNewOrOldImageState(null);
     }
 
     //Load all Images

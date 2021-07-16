@@ -18,6 +18,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/account")
@@ -37,7 +38,7 @@ public class AccountController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<Account> getAccountById (@PathVariable("id") long id){
+  public ResponseEntity<Account> getAccountById (@PathVariable("id") UUID id){
     Account account = accountService.getAccountById(id)
       .orElseThrow(() -> new ResponseStatusException(
         HttpStatus.NOT_FOUND, "No Account found with this ID", new ResourceNotFoundException()
@@ -52,8 +53,8 @@ public class AccountController {
   }
 
   @PostMapping(value = "/login")
-  public ResponseEntity<Long> login (@RequestBody AccountDTO accountDTO) {
-    long id;
+  public ResponseEntity<UUID> login (@RequestBody AccountDTO accountDTO) {
+    UUID id;
     try {
       id = accountService.login(accountDTO);
     } catch (ResourceNotFoundException e) {
@@ -157,7 +158,7 @@ public class AccountController {
   }
 
   @DeleteMapping(value = ("/{id}"))
-  public ResponseEntity<HttpStatus> deleteAccount (@PathVariable("id") long id) {
+  public ResponseEntity<HttpStatus> deleteAccount (@PathVariable("id") UUID id) {
     if (accountService.accountExists(id)) {
       accountService.deleteAccount(id);
       return new ResponseEntity<>(HttpStatus.ACCEPTED);

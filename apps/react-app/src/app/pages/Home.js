@@ -231,7 +231,7 @@ export default function Home() {
     setRegisterSuccessful(1);
     let account = {
       "account": {
-        "id": 0,
+        "id": null,
         "email": emailState,
         "password": passwordState
       },

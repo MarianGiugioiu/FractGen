@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/fractal")
@@ -26,7 +27,7 @@ public class FractalController {
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<Fractal> getFractalById (@PathVariable("id") long id){
+  public ResponseEntity<Fractal> getFractalById (@PathVariable("id") UUID id){
     Fractal fractal = fractalService.getFractalById(id)
       .orElseThrow(() -> new ResponseStatusException(
         HttpStatus.NOT_FOUND, "No Fractal found with this ID", new ResourceNotFoundException()
@@ -35,7 +36,7 @@ public class FractalController {
   }
 
   @GetMapping(value = {"", "/{id}/parts"})
-  public ResponseEntity<List<NameImageClass>> getAllFractalsParts (@PathVariable("id") long id) {
+  public ResponseEntity<List<NameImageClass>> getAllFractalsParts (@PathVariable("id") UUID id) {
     List<NameImageClass> fractals = null;
     try {
       fractals = fractalService.getFractalParts(id);
@@ -58,7 +59,7 @@ public class FractalController {
   }
 
   @PutMapping(value = ("/{id}"))
-  public ResponseEntity<Fractal> updateFractal (@PathVariable("id") long id,
+  public ResponseEntity<Fractal> updateFractal (@PathVariable("id") UUID id,
                                                 @RequestBody Fractal fractal) {
     if (fractalService.fractalExists(id)) {
       Fractal updatedFractal = fractalService.updateFractal(id, fractal);
@@ -71,7 +72,7 @@ public class FractalController {
   }
 
   @DeleteMapping(value = ("/{id}"))
-  public ResponseEntity<HttpStatus> deleteFractal (@PathVariable("id") long id) {
+  public ResponseEntity<HttpStatus> deleteFractal (@PathVariable("id") UUID id) {
     if (fractalService.fractalExists(id)) {
       fractalService.deleteFractal(id);
       return new ResponseEntity<>(HttpStatus.ACCEPTED);

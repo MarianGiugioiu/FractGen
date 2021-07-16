@@ -273,7 +273,7 @@ export default function Tree(props){
         }
 
         var fractal = {
-            "id": 0,
+            "id": null,
             "type": "tree",
             "status":isPngState,
             "name": nameState,

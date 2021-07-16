@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class FractalService {
@@ -21,11 +22,11 @@ public class FractalService {
     return fractalRepo.findAll();
   }
 
-  public Optional<Fractal> getFractalById (long id){
+  public Optional<Fractal> getFractalById (UUID id){
     return fractalRepo.findById(id);
   }
 
-  public List<NameImageClass> getFractalParts (long id) throws ResourceNotFoundException, PartNotFoundException {
+  public List<NameImageClass> getFractalParts (UUID id) throws ResourceNotFoundException, PartNotFoundException {
     Fractal fractal = fractalRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
     ArrayList<String> ids = new ArrayList<>();
     String string  = "";
@@ -35,15 +36,25 @@ public class FractalService {
       for(int i = 1; i < list.length - 1; i++){
         int pos1 = list[i].indexOf("id") + 4;
         int pos2 = list[i].indexOf(',',pos1);
-        String nr = list[i].substring(pos1);
+        String nr = list[i].substring(pos1).replace("\"","");
         if (pos2 != -1)
-          nr = list[i].substring(pos1,pos2);
+          nr = list[i].substring(pos1,pos2).replace("\"","");
         ids.add(nr);
       }
     }
     ArrayList<NameImageClass> fractals = new ArrayList<>();
+    System.out.println(ids);
+    UUID uuid = UUID.randomUUID();
+    System.out.println(uuid);
+    System.out.println(UUID.fromString(uuid.toString()));
+    System.out.println(ids.get(0).length());
+    System.out.println(uuid.toString().length());
+    System.out.println(UUID.fromString(ids.get(0)));
+
     for (String idPart : ids){
-      Fractal fractalPart = fractalRepo.findById(Long.parseLong(idPart)).orElseThrow(PartNotFoundException::new);
+      System.out.println(idPart);
+      //System.out.println(UUID.fromString(idPart));
+      Fractal fractalPart = fractalRepo.findById(UUID.fromString(idPart)).orElseThrow(PartNotFoundException::new);
       fractals.add(new NameImageClass(fractalPart.getId(),fractalPart.getName(),fractalPart.getDataURL()));
     }
     return fractals;
@@ -64,7 +75,7 @@ public class FractalService {
     return fractalRepo.save(fractalToSave);
   }
 
-  public Fractal updateFractal (long id, Fractal fractal) {
+  public Fractal updateFractal (UUID id, Fractal fractal) {
     Fractal fractalToUpdate = fractalRepo.findById(id).get();
 
     if (fractal.getType() != null) {
@@ -100,11 +111,11 @@ public class FractalService {
     return fractalRepo.save(fractalToUpdate);
   }
 
-  public void deleteFractal (long id) {
+  public void deleteFractal (UUID id) {
     fractalRepo.deleteById(id);
   }
 
-  public boolean fractalExists (long id) {
+  public boolean fractalExists (UUID id) {
     return fractalRepo.existsById(id);
   }
 }

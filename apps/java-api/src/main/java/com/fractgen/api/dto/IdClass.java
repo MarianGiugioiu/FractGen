@@ -1,19 +1,20 @@
 package com.fractgen.api.dto;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class IdClass {
-  private long id;
+  private UUID id;
 
-  public IdClass(long id) {
+  public IdClass(UUID id) {
     this.id = id;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -22,7 +23,7 @@ public class IdClass {
     if (this == o) return true;
     if (!(o instanceof IdClass)) return false;
     IdClass idClass = (IdClass) o;
-    return id == idClass.id;
+    return Objects.equals(id, idClass.id);
   }
 
   @Override

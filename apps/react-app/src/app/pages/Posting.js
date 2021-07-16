@@ -138,7 +138,7 @@ export default function MyPosting(props) {
                 + (currentdate.getMinutes() < 10 ? "0"+ currentdate.getMinutes() : currentdate.getMinutes()) + ":" 
                 + (currentdate.getSeconds() < 10 ? "0"+ currentdate.getSeconds() : currentdate.getSeconds())
         let comment = {
-            "id":0,
+            "id": null,
             "text":textNewCommentState,
             "lastModified":datetime,
             "edited":false,
