@@ -22,7 +22,7 @@ export default function SaveAndLoad(props) {
                     />
                 </div>
                 <div className="myRowSimple">
-                    {<button className="btn btn-outline-success" onClick={props.saveFunction} style={{display:(((props.imageProfileId == props.profileId || props.imageProfileId == -1 ) && props.loadingGetState == 0) ? "flex" : "none"),marginTop:"1vh"}}><span style={{fontSize:"1.5vw"}}>Save {props.type}</span></button>}
+                    {<button className="btn btn-outline-success" onClick={props.saveFunction} style={{display:(((props.imageProfileId == props.profileId || props.imageProfileId == -1 ) && props.profileId != -1 && props.loadingGetState == 0) ? "flex" : "none"),marginTop:"1vh"}}><span style={{fontSize:"1.5vw"}}>Save {props.type}</span></button>}
                     <Loader
                         style={{display: props.loadingPostState != 0 ? "flex" : "none"}}
                         type="TailSpin"
