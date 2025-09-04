@@ -35,6 +35,5 @@ It was developed as a monorepo using **Nx**, with a **React** frontend and a **S
 
 ## About
 
-This project was built as part of my **Bachelor’s Degree**, with the main goal of demonstrating technical skills while also exploring  
-the geometry and algorithms behind fractal generation.  
+This project was built as part of my **Bachelor’s Degree**, with the main goal of demonstrating technical skills while also exploring the geometry and algorithms behind fractal generation.  
 The combination of procedural image creation and a social media structure makes the app both a creative tool and a collaborative platform.
